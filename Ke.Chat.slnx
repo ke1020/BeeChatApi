@@ -1,0 +1,20 @@
+﻿<Solution>
+  <Folder Name="/host/">
+    <Project Path="host/Ke.Chat.Host.Shared/Ke.Chat.Host.Shared.csproj" />
+    <Project Path="host/Ke.Chat.HttpApi.Host/Ke.Chat.HttpApi.Host.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Ke.Chat.Application.Contracts/Ke.Chat.Application.Contracts.csproj" />
+    <Project Path="src/Ke.Chat.Application/Ke.Chat.Application.csproj" />
+    <Project Path="src/Ke.Chat.Domain.Shared/Ke.Chat.Domain.Shared.csproj" />
+    <Project Path="src/Ke.Chat.Domain/Ke.Chat.Domain.csproj" />
+    <Project Path="src/Ke.Chat.EntityFrameworkCore/Ke.Chat.EntityFrameworkCore.csproj" />
+    <Project Path="src/Ke.Chat.HttpApi/Ke.Chat.HttpApi.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Ke.Chat.Application.Tests/Ke.Chat.Application.Tests.csproj" />
+    <Project Path="test/Ke.Chat.Domain.Tests/Ke.Chat.Domain.Tests.csproj" />
+    <Project Path="test/Ke.Chat.EntityFrameworkCore.Tests/Ke.Chat.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="test/Ke.Chat.TestBase/Ke.Chat.TestBase.csproj" />
+  </Folder>
+</Solution>

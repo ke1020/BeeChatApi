@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Ke.Chat</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+<PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Ke.Chat.Domain\Ke.Chat.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

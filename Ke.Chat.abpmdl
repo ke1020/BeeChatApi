@@ -1,0 +1,111 @@
+﻿{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {},
+      "host": {}
+    }
+  },
+  "packages": {
+    "Ke.Chat.Domain.Shared": {
+      "path": "src/Ke.Chat.Domain.Shared/Ke.Chat.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Domain": {
+      "path": "src/Ke.Chat.Domain/Ke.Chat.Domain.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Application.Contracts": {
+      "path": "src/Ke.Chat.Application.Contracts/Ke.Chat.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Application": {
+      "path": "src/Ke.Chat.Application/Ke.Chat.Application.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.EntityFrameworkCore": {
+      "path": "src/Ke.Chat.EntityFrameworkCore/Ke.Chat.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.MongoDB": {
+      "path": "src/Ke.Chat.MongoDB/Ke.Chat.MongoDB.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.HttpApi": {
+      "path": "src/Ke.Chat.HttpApi/Ke.Chat.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.HttpApi.Client": {
+      "path": "src/Ke.Chat.HttpApi.Client/Ke.Chat.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.TestBase": {
+      "path": "test/Ke.Chat.TestBase/Ke.Chat.TestBase.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.EntityFrameworkCore.Tests": {
+      "path": "test/Ke.Chat.EntityFrameworkCore.Tests/Ke.Chat.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.MongoDB.Tests": {
+      "path": "test/Ke.Chat.MongoDB.Tests/Ke.Chat.MongoDB.Tests.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.Domain.Tests": {
+      "path": "test/Ke.Chat.Domain.Tests/Ke.Chat.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.Application.Tests": {
+      "path": "test/Ke.Chat.Application.Tests/Ke.Chat.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.HttpApi.Host": {
+      "path": "host/Ke.Chat.HttpApi.Host/Ke.Chat.HttpApi.Host.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.Web": {
+      "path": "src/Ke.Chat.Web/Ke.Chat.Web.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/Ke.Chat.HttpApi.Client.ConsoleTestApp/Ke.Chat.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "Ke.Chat.Web.Host": {
+      "path": "host/Ke.Chat.Web.Host/Ke.Chat.Web.Host.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.AuthServer": {
+      "path": "host/Ke.Chat.AuthServer/Ke.Chat.AuthServer.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.Host.Shared": {
+      "path": "host/Ke.Chat.Host.Shared/Ke.Chat.Host.Shared.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.Web.Unified": {
+      "path": "host/Ke.Chat.Web.Unified/Ke.Chat.Web.Unified.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.Blazor": {
+      "path": "src/Ke.Chat.Blazor/Ke.Chat.Blazor.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Blazor.Host": {
+      "path": "host/Ke.Chat.Blazor.Host/Ke.Chat.Blazor.Host.abppkg",
+      "folder": "host"
+    },
+    "Ke.Chat.Blazor.Server": {
+      "path": "src/Ke.Chat.Blazor.Server/Ke.Chat.Blazor.Server.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Blazor.WebAssembly": {
+      "path": "src/Ke.Chat.Blazor.WebAssembly/Ke.Chat.Blazor.WebAssembly.abppkg",
+      "folder": "src"
+    },
+    "Ke.Chat.Blazor.Server.Host": {
+      "path": "host/Ke.Chat.Blazor.Server.Host/Ke.Chat.Blazor.Server.Host.abppkg",
+      "folder": "host"
+    }
+  }
+}

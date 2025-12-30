@@ -1,0 +1,7 @@
+﻿{
+  "modules": {
+    "Ke.Chat": {
+      "path": "Ke.Chat.abpmdl"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Ke.Chat</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+<PackageReference Include="Volo.Abp.Mapperly" Version="$(AbpVersion)" />
+<PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
+    <ProjectReference Include="..\Ke.Chat.Application.Contracts\Ke.Chat.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Ke.Chat.Domain\Ke.Chat.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
