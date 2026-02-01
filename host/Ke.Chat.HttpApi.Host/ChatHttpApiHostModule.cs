@@ -27,6 +27,7 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
+using Ke.Tasks;
 
 namespace Ke.Chat;
 
@@ -146,6 +147,10 @@ public class ChatHttpApiHostModule : AbpModule
                     .AllowCredentials();
             });
         });
+
+        //context.Services.AddChat();
+        //context.Services.AddSse();
+        context.Services.AddTasks();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

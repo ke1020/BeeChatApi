@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-<PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
-<PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Ke.Chat.Domain.Shared\Ke.Chat.Domain.Shared.csproj" />
   </ItemGroup>
 

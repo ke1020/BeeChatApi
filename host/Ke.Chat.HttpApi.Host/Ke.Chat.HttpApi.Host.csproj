@@ -34,6 +34,7 @@
     <ProjectReference
       Include="..\..\src\Ke.Chat.EntityFrameworkCore\Ke.Chat.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Ke.Chat.Host.Shared\Ke.Chat.Host.Shared.csproj" />
+    <ProjectReference Include="..\..\libs\Ke.Tasks\Ke.Tasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>
