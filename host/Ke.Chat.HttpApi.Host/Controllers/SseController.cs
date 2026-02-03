@@ -20,19 +20,22 @@ namespace Ke.Chat.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SseController(ILogger<SseController> logger, IEventBufferService eventBuffer, ISpeechRecognitionNotification speechRecognitionNotification) : AbpController
+public class SseController(ILogger<SseController> logger, 
+    IEventBufferService eventBuffer,
+    IChat chat) : AbpController
 {
     private readonly IEventBufferService _eventBuffer = eventBuffer;
     private readonly ILogger<SseController> _logger = logger;
     private static readonly ConcurrentDictionary<string, CancellationTokenSource> _clientCancellationTokens = new();
-    private readonly ISpeechRecognitionNotification _speechRecognitionNotification = speechRecognitionNotification;
+    //private readonly ISpeechRecognitionNotification _speechRecognitionNotification = speechRecognitionNotification;
+    private readonly IChat _chat = chat;
 
     /// <summary>
     /// SSE 流式端点 - 支持重连
     /// </summary>
     /// <param name="lastEventId">上次接收的事件ID（从 Last-Event-ID 头部获取）</param>
     [HttpGet("stream")]
-    public ServerSentEventsResult<SseEvent> GetEventStream(
+    public async Task<ServerSentEventsResult<SseEvent>> GetEventStream(
         /*[FromHeader(Name = "Last-Event-ID")]*/ string? lastEventId = null)
     {
         var clientId = Guid.NewGuid().ToString();
@@ -40,7 +43,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
             clientId, lastEventId ?? "none");
 
         // 注册客户端
-        _eventBuffer.AddClient(clientId, lastEventId ?? string.Empty);
+        await _eventBuffer.AddClientAsync(clientId, lastEventId ?? string.Empty);
 
         // 创建客户端特定的取消令牌
         var cts = new CancellationTokenSource();
@@ -73,16 +76,16 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
     /// 带进度更新的流式任务
     /// </summary>
     [HttpGet("progress-task")]
-    public ServerSentEventsResult<SseEvent> ProgressTaskStream(
+    public ServerSentEventsResult<object> ProgressTaskStream(
         [FromQuery] string taskName = "处理任务",
         [FromHeader(Name = "Last-Event-ID")] string? lastEventId = null)
     {
         return TypedResults.ServerSentEvents(
-            _speechRecognitionNotification.Send(new SpeechRecognitionNotificationRequest
+            _chat.SendAsync(new Tasks.Models.Chats.ChatRequest
             {
-                TaskName = taskName,
-                FilePaths = [@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\FodyWeavers.xml"],
-                LastEventId = lastEventId
+                Prompt = string.Empty,
+                RefFileIds = [@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\FodyWeavers.xml"],
+                TaskType = "asr"
             }))
             ;
     }
@@ -103,9 +106,9 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
     /// 获取已连接客户端信息
     /// </summary>
     [HttpGet("clients")]
-    public IActionResult GetConnectedClients()
+    public async Task<IActionResult> GetConnectedClients()
     {
-        var clients = _eventBuffer.GetConnectedClients()
+        var clients = (await _eventBuffer.GetConnectedClientsAsync())
             .Select(c => new
             {
                 c.ClientId,
@@ -170,7 +173,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
             {
                 _logger.LogDebug("客户端 {ClientId} 重连，发送错过的消息", clientId);
 
-                var missedEvents = _eventBuffer.GetEventsSince(lastEventId);
+                var missedEvents = await _eventBuffer.GetEventsSinceAsync(lastEventId);
                 foreach (var missedEvent in missedEvents)
                 {
                     if (cancellationToken.IsCancellationRequested)
@@ -226,6 +229,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
                 // 心跳事件
                 if (heartbeatCount % 6 == 0) // 每30秒发送心跳（假设每5秒循环一次）
                 {
+                    var count = await _eventBuffer.GetConnectedClientsAsync();
                     yield return new SseEvent
                     {
                         EventType = "heartbeat",
@@ -233,7 +237,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
                         {
                             Timestamp = DateTime.UtcNow,
                             ServerStatus = "healthy",
-                            ActiveClients = _eventBuffer.GetConnectedClients().Count()
+                            ActiveClients = count
                         },
                         Retry = 5000
                     };
@@ -254,9 +258,9 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
                     };
 
                     // 添加到缓冲区
-                    _eventBuffer.AddEvent(randomEvent);
+                    await _eventBuffer.AddEventAsync(randomEvent);
                     // 更新客户端最后事件ID
-                    _eventBuffer.UpdateClientLastEventId(clientId, randomEvent.Id);
+                    await _eventBuffer.UpdateClientLastEventIdAsync(clientId, randomEvent.Id);
 
                     yield return randomEvent;
                 }
@@ -315,7 +319,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
             };
 
             // 添加到缓冲区以便重连
-            _eventBuffer.AddEvent(wordEvent);
+            await _eventBuffer.AddEventAsync(wordEvent);
 
             yield return wordEvent;
             await Task.Delay(150, cancellationToken);
@@ -336,7 +340,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
             Retry = 5000
         };
 
-        _eventBuffer.AddEvent(completionEvent);
+        await _eventBuffer.AddEventAsync(completionEvent);
         yield return completionEvent;
     }
 
@@ -355,7 +359,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
         if (!string.IsNullOrEmpty(lastEventId))
         {
             // 尝试从事件中提取进度信息
-            var lastEvent = _eventBuffer.GetEventsSince(lastEventId)
+            var lastEvent = (await _eventBuffer.GetEventsSinceAsync(lastEventId))
                 .LastOrDefault(e => e.EventType == "progress");
 
             if (lastEvent?.Data is JsonElement jsonElement)
@@ -388,7 +392,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
                 Retry = 3000
             };
 
-            _eventBuffer.AddEvent(progressEvent);
+            await _eventBuffer.AddEventAsync(progressEvent);
             yield return progressEvent;
 
             await Task.Delay(300, cancellationToken);
@@ -452,7 +456,7 @@ public class SseController(ILogger<SseController> logger, IEventBufferService ev
                 Retry = 2000
             };
 
-            _eventBuffer.AddEvent(dataEvent);
+            await _eventBuffer.AddEventAsync(dataEvent);
             yield return dataEvent;
 
             count++;
@@ -503,7 +507,7 @@ public class EventCleanupService(
             {
                 await Task.Delay(_cleanupInterval, stoppingToken);
 
-                _eventBuffer.ClearOldEvents(maxAgeInMinutes: 30);
+                await _eventBuffer.ClearOldEventsAsync(maxAgeInMinutes: 30);
                 _logger.LogDebug("执行事件清理完成");
             }
             catch (TaskCanceledException)

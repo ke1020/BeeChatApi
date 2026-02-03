@@ -1,0 +1,1018 @@
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Threading.Channels;
+using FFMpegCore;
+using Ke.Ai.Sherpa.Abstractions;
+using Ke.Ai.Sherpa.Speeches.Models;
+using Ke.Tasks.Abstractions;
+using Ke.Tasks.Models;
+using Ke.Tasks.SSE.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using TaskStatus = Ke.Tasks.Models.TaskStatus;
+
+namespace Ke.Tasks;
+
+/// <summary>
+/// 任务进度服务
+/// </summary>
+/// <param name="eventBuffer"></param>
+/// <param name="logger"></param>
+public class SpeechRecognitionNotification(ILogger<SpeechRecognitionNotification> logger,
+    IOptions<TaskWeightOptions> taskWeightOptions,
+    IOptions<SherpaOptions> sherpaOptions,
+    IEventBufferService eventBuffer,
+    ISherpaSpeechRecognizer asr) :
+    TaskNotificationBase<SpeechRecognitionNotificationRequest>(logger, taskWeightOptions.Value),
+    ISpeechRecognitionNotification
+{
+    private readonly SherpaOptions _sherpaOptions = sherpaOptions.Value;
+    private readonly IEventBufferService _eventBuffer = eventBuffer;
+    private readonly ISherpaSpeechRecognizer _asr = asr;
+    /// <summary>
+    /// 进度更新频率（毫秒）
+    /// </summary>
+    private const int ProgressUpdateIntervalMs = 2000;
+    // private const string EventType = "ASR";
+
+    /// <summary>
+    /// 生成多文件处理进度流
+    /// </summary>
+    public override async IAsyncEnumerable<SseEvent> SendAsync(SpeechRecognitionNotificationRequest request,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentNullException.ThrowIfNull(request);
+
+        // 验证任务权重配置
+        ValidateWeights(TaskWeightOptions.SpeechRecognize);
+
+        // 获取转码权重
+        var transcodeWeight = TaskWeightOptions.SpeechRecognize
+            .FirstOrDefault(w => w.WeightType == TaskWeightType.Transcode)?.Weight ?? 0
+            ;
+        // 获取 ASR 权重
+        var asrWeight = TaskWeightOptions.SpeechRecognize
+            .FirstOrDefault(w => w.WeightType == TaskWeightType.ASR)?.Weight ?? 0
+            ;
+
+        // 创建任务实例
+        var task = new TaskInfo
+        {
+            TaskName = request.TaskName,
+            Files = [.. request.FilePaths.Select((path, index) =>
+                CreateTaskItem(path, index, transcodeWeight, asrWeight)
+                )],
+            Status = TaskStatus.Processing,
+            Percentage = 0
+        };
+
+        // 尝试从断点恢复
+        if (!string.IsNullOrEmpty(request.LastEventId))
+        {
+            using (_eventBuffer)
+            {
+                var lastEvent = (await _eventBuffer.GetEventsSinceAsync(request.LastEventId, cancellationToken))
+                    .LastOrDefault(e => e.EventType == "file-progress" || e.EventType == "task-progress")
+                    ;
+
+                if (lastEvent?.Data is JsonElement jsonElement)
+                {
+                    Logger.LogInformation("从事件 {EventId} 恢复任务", request.LastEventId);
+
+                    // 尝试恢复任务状态
+                    if (jsonElement.TryGetProperty("taskId", out var taskIdProp) &&
+                        taskIdProp.GetString() == task.TaskId)
+                    {
+                        if (jsonElement.TryGetProperty("currentFileIndex", out var fileIndexProp))
+                        {
+                            task.CurrentFileIndex = fileIndexProp.GetInt32();
+                        }
+
+                        // 恢复权重进度
+                        if (jsonElement.TryGetProperty("completedSubtaskWeight", out var weightProp) &&
+                            task.CurrentFileIndex < task.Files.Count)
+                        {
+                            var currentFile = task.Files[task.CurrentFileIndex];
+                            currentFile.Metadata["completedSubtaskWeight"] = weightProp.GetInt32();
+                        }
+
+                        Logger.LogInformation("从断点恢复任务 {TaskId}，文件索引 {FileIndex}",
+                            task.TaskId, task.CurrentFileIndex)
+                            ;
+                    }
+                }
+            }
+        }
+
+        // 创建Channel用于收集SSE事件
+        var eventChannel = Channel.CreateUnbounded<SseEvent>(new UnboundedChannelOptions
+        {
+            SingleWriter = false, // 允许多个写入者
+            SingleReader = true
+        });
+
+        // 启动后台任务处理文件
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await ProcessFilesAsync(task, transcodeWeight, asrWeight, eventChannel.Writer, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "处理任务时发生异常");
+                await eventChannel.Writer.WriteAsync(CreateTaskErrorEvent(task, ex.Message), cancellationToken);
+            }
+            finally
+            {
+                eventChannel.Writer.Complete();
+            }
+        }, cancellationToken);
+
+        // 返回SSE事件流
+        await foreach (var sseEvent in eventChannel.Reader.ReadAllAsync(cancellationToken))
+        {
+            yield return sseEvent;
+        }
+
+        /*
+        // 发送任务开始事件
+        yield return CreateTaskStartEvent(task);
+        Logger.LogInformation("开始处理任务: {TaskName}，共 {FileCount} 个文件", task.TaskName, task.Files.Count);
+
+        // 创建进度更新定时器
+        using var progressTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(ProgressUpdateIntervalMs));
+        var progressUpdateTask = CreateTaskProgressEvent(task, progressTimer, cancellationToken);
+
+        // 处理每个文件
+        for (int fileIndex = task.CurrentFileIndex; fileIndex < task.Files.Count; fileIndex++)
+        {
+            var fileItem = task.Files[fileIndex];
+            fileItem.Status = FileStatus.Preparing;
+            fileItem.StartTime = DateTime.UtcNow;
+            task.CurrentFileIndex = fileIndex;
+
+            // 发送文件开始事件
+            yield return CreateFileStartEvent(task, fileItem);
+            Logger.LogInformation("开始处理文件: {FileName} (索引: {Index}/{Total})",
+                fileItem.FileName, fileIndex + 1, task.Files.Count)
+                ;
+
+            // 在文件处理循环内（fileIndex 循环中）
+            var progressChannel = Channel.CreateUnbounded<SubtaskProgress>(
+                new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
+
+            // 步骤1: 转码（使用分配的权重）
+            await ProcessTranscoding(fileItem, transcodeWeight,
+                (progress) => CreateFileProgressEvent(task, fileItem, progress),
+                task.TaskId,
+                cancellationToken);
+
+            // 发送转码完成事件
+            yield return CreateSubtaskCompleteEvent(task, fileItem, TaskWeightType.Transcode,
+                transcodeWeight, GetFileCompletedWeight(fileItem))
+                ;
+            Logger.LogInformation("文件转码完成: {FileName}，累计权重: {Weight}/100",
+                    fileItem.FileName, GetFileCompletedWeight(fileItem))
+                    ;
+
+            // 步骤2: 识别（使用分配的权重）
+            await ProcessRecognition(fileItem, asrWeight,
+                (progress) => CreateFileProgressEvent(task, fileItem, progress),
+                task.TaskId,
+                cancellationToken);
+
+            // 发送识别完成事件
+            yield return CreateSubtaskCompleteEvent(task, fileItem, TaskWeightType.ASR,
+                asrWeight, GetFileCompletedWeight(fileItem))
+                ;
+            Logger.LogInformation("文件识别完成: {FileName}，累计权重: {Weight}/100",
+                fileItem.FileName, GetFileCompletedWeight(fileItem))
+                ;
+
+            // 文件完成
+            fileItem.Status = FileStatus.Completed;
+            fileItem.EndTime = DateTime.UtcNow;
+
+            // 确保权重累计到100
+            fileItem.Metadata["completedSubtaskWeight"] = 100;
+
+            // 发送文件完成事件
+            yield return CreateFileCompleteEvent(task, fileItem, GetFileCompletedWeight(fileItem));
+            Logger.LogInformation("文件处理完成: {FileName}，总权重: 100/100，耗时: {Time:F2}s",
+                fileItem.FileName, (fileItem.EndTime - fileItem.StartTime)?.TotalSeconds ?? 0)
+                ;
+
+            // 发送任务总体进度更新
+            yield return CreateTaskProgressEvent(task);
+            Logger.LogInformation("任务进度更新: {TaskName}，总体进度: {Percentage:F2}%，文件进度: {FileProgress:F2}%，已完成 {Completed}/{Total} 个文件",
+                task.TaskName, task.Percentage, GetTaskWeightProgress(task),
+                task.Files.Count(f => f.Status == FileStatus.Completed), task.Files.Count);
+        }
+
+        // 任务完成
+        task.Status = TaskStatus.Completed;
+        task.EndTime = DateTime.UtcNow;
+        yield return CreateTaskCompleteEvent(task);
+        Logger.LogInformation("任务完成: {TaskName}，总耗时: {Time:F2}s，总体权重进度: {WeightProgress:F2}%",
+            task.TaskName, (task.EndTime - task.StartTime)?.TotalSeconds ?? 0,
+            GetTaskWeightProgress(task))
+            ;
+
+        // 停止进度定时器
+        progressTimer.Dispose();
+        */
+    }
+
+    /// <summary>
+    /// 异步处理所有文件
+    /// </summary>
+    private async Task ProcessFilesAsync(
+        TaskInfo task,
+        int transcodeWeight,
+        int asrWeight,
+        ChannelWriter<SseEvent> channelWriter,
+        CancellationToken cancellationToken)
+    {
+        // 发送任务开始事件
+        await channelWriter.WriteAsync(CreateTaskStartEvent(task), cancellationToken);
+        Logger.LogInformation("开始处理任务: {TaskName}，共 {FileCount} 个文件", task.TaskName, task.Files.Count);
+
+        // 创建进度更新定时器
+        using var progressTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(ProgressUpdateIntervalMs));
+        var progressUpdateTask = Task.Run(async () =>
+        {
+            while (await progressTimer.WaitForNextTickAsync(cancellationToken))
+            {
+                try
+                {
+                    var progressEvent = CreateTaskProgressEvent(task);
+                    await channelWriter.WriteAsync(progressEvent, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarning(ex, "发送进度更新失败");
+                }
+            }
+        }, cancellationToken);
+
+        try
+        {
+            // 处理每个文件
+            for (int fileIndex = task.CurrentFileIndex; fileIndex < task.Files.Count; fileIndex++)
+            {
+                var fileItem = task.Files[fileIndex];
+                fileItem.Status = FileStatus.Preparing;
+                fileItem.StartTime = DateTime.UtcNow;
+                task.CurrentFileIndex = fileIndex;
+
+                // 发送文件开始事件
+                await channelWriter.WriteAsync(CreateFileStartEvent(task, fileItem), cancellationToken);
+                Logger.LogInformation("开始处理文件: {FileName} (索引: {Index}/{Total})",
+                    fileItem.FileName, fileIndex + 1, task.Files.Count);
+
+                // 步骤1: 转码
+                await ProcessTranscodingAsync(fileItem, transcodeWeight, async (progress) =>
+                {
+                    var progressEvent = CreateFileProgressEvent(task, fileItem, TaskWeightType.Transcode, progress);
+                    await channelWriter.WriteAsync(progressEvent, cancellationToken);
+                }, cancellationToken);
+
+                // 发送转码完成事件
+                await channelWriter.WriteAsync(CreateSubtaskCompleteEvent(task, fileItem, TaskWeightType.Transcode,
+                    transcodeWeight, GetFileCompletedWeight(fileItem)), cancellationToken);
+                Logger.LogInformation("文件转码完成: {FileName}，累计权重: {Weight}/100",
+                    fileItem.FileName, GetFileCompletedWeight(fileItem));
+
+                // 步骤2: 识别
+                await ProcessRecognitionAsync(fileItem, asrWeight, async (progress) =>
+                {
+                    var progressEvent = CreateFileProgressEvent(task, fileItem, TaskWeightType.ASR, progress);
+                    await channelWriter.WriteAsync(progressEvent, cancellationToken);
+                }, cancellationToken);
+
+                // 发送识别完成事件
+                await channelWriter.WriteAsync(CreateSubtaskCompleteEvent(task, fileItem, TaskWeightType.ASR,
+                    asrWeight, GetFileCompletedWeight(fileItem)), cancellationToken);
+                Logger.LogInformation("文件识别完成: {FileName}，累计权重: {Weight}/100",
+                    fileItem.FileName, GetFileCompletedWeight(fileItem));
+
+                // 文件完成
+                fileItem.Status = FileStatus.Completed;
+                fileItem.EndTime = DateTime.UtcNow;
+
+                // 确保权重累计到100
+                fileItem.Metadata["completedSubtaskWeight"] = 100;
+
+                // 发送文件完成事件
+                await channelWriter.WriteAsync(CreateFileCompleteEvent(task, fileItem, GetFileCompletedWeight(fileItem)), cancellationToken);
+                Logger.LogInformation("文件处理完成: {FileName}，总权重: 100/100，耗时: {Time:F2}s",
+                    fileItem.FileName, (fileItem.EndTime - fileItem.StartTime)?.TotalSeconds ?? 0);
+
+                // 更新任务总体进度
+                UpdateTaskPercentage(task);
+            }
+
+            // 任务完成
+            task.Status = TaskStatus.Completed;
+            task.EndTime = DateTime.UtcNow;
+            await channelWriter.WriteAsync(CreateTaskCompleteEvent(task), cancellationToken);
+            Logger.LogInformation("任务完成: {TaskName}，总耗时: {Time:F2}s，总体权重进度: {WeightProgress:F2}%",
+                task.TaskName, (task.EndTime - task.StartTime)?.TotalSeconds ?? 0,
+                GetTaskWeightProgress(task));
+        }
+        finally
+        {
+            // 停止进度定时器
+            progressTimer.Dispose();
+            try
+            {
+                await progressUpdateTask;
+            }
+            catch (TaskCanceledException)
+            {
+                // 任务取消是正常的
+            }
+        }
+    }
+
+    /// <summary>
+    /// 带进度报告的文件转码处理
+    /// </summary>
+    private async Task ProcessTranscodingAsync(
+        TaskItem fileItem,
+        int weight,
+        Func<double, Task> progressCallback,
+        CancellationToken cancellationToken)
+    {
+        fileItem.Status = FileStatus.Transcoding;
+        fileItem.FilePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
+        var output = GetOutputFilePath(fileItem.FilePath);
+
+        DateTime lastProgressTime = DateTime.MinValue;
+        double lastProgressValue = 0;
+
+        async void OnPercentageProgress(double percentage)
+        {
+            // 更新转码进度
+            UpdateSubtaskProgress(fileItem, TaskWeightType.Transcode, percentage);
+
+            // 检查是否需要发送进度更新（至少间隔500ms且进度变化超过1%）
+            var now = DateTime.UtcNow;
+            if (lastProgressTime == DateTime.MinValue ||
+                (now - lastProgressTime).TotalMilliseconds >= 500 ||
+                Math.Abs(percentage - lastProgressValue) >= 1)
+            {
+                try
+                {
+                    await progressCallback(percentage);
+                    lastProgressTime = now;
+                    lastProgressValue = percentage;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarning(ex, "发送转码进度失败");
+                }
+            }
+        }
+
+        int samplingRate = 16000;
+        var analysis = FFProbe.Analyse(fileItem.FilePath);
+        var progressor = FFMpegArguments
+            .FromFileInput(fileItem.FilePath)
+            .OutputToFile(output, true, opts =>
+            {
+                opts.WithDuration(analysis.Duration);
+                opts.WithCustomArgument($"-ac 1 -ar {samplingRate} -acodec pcm_s16le");
+            });
+
+        progressor.NotifyOnProgress(OnPercentageProgress, analysis.Duration);
+
+        await progressor
+            .CancellableThrough(cancellationToken)
+            .ProcessAsynchronously()
+            .ConfigureAwait(false);
+
+        // 更新已完成权重
+        UpdateFileWeightProgress(fileItem, weight);
+    }
+
+    /// <summary>
+    /// 带进度报告的文件识别处理
+    /// </summary>
+    private async Task ProcessRecognitionAsync(
+        TaskItem fileItem,
+        int weight,
+        Func<double, Task> progressCallback,
+        CancellationToken cancellationToken)
+    {
+        fileItem.Status = FileStatus.Recognizing;
+        var output = GetOutputFilePath(fileItem.FilePath);
+
+        DateTime lastProgressTime = DateTime.MinValue;
+        double lastProgressValue = 0;
+
+        var progress = new Progress<Ke.Ai.Models.Progress>();
+        progress.ProgressChanged += async (sender, progressReport) =>
+        {
+            UpdateSubtaskProgress(fileItem, TaskWeightType.ASR, progressReport.Percentage);
+
+            // 检查是否需要发送进度更新
+            var now = DateTime.UtcNow;
+            if (lastProgressTime == DateTime.MinValue ||
+                (now - lastProgressTime).TotalMilliseconds >= 500 ||
+                Math.Abs(progressReport.Percentage - lastProgressValue) >= 1)
+            {
+                try
+                {
+                    await progressCallback(progressReport.Percentage);
+                    lastProgressTime = now;
+                    lastProgressValue = progressReport.Percentage;
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogWarning(ex, "发送识别进度失败");
+                }
+            }
+        };
+
+        var funAsrNano = _sherpaOptions.FunAsrNano ??
+            throw new ArgumentNullException(nameof(FunAsrNanoModel));
+
+        var response = await _asr.RecognizeAsync(new SherpaSpeechRecognizeRequest(output)
+        {
+            FunAsrNano = new FunAsrNanoModel(funAsrNano.EncoderAdaptor,
+                funAsrNano.LLM,
+                funAsrNano.Embedding,
+                funAsrNano.Tokenizer),
+            Tokens = string.Empty,
+            Progress = progress
+        }, cancellationToken);
+
+        File.WriteAllText(@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\16k.srt", response.Text);
+
+        // 更新已完成权重
+        UpdateFileWeightProgress(fileItem, weight);
+    }
+
+    /// <summary>
+    /// 创建文件进度事件
+    /// </summary>
+    private static SseEvent CreateFileProgressEvent(TaskInfo task, TaskItem fileItem, TaskWeightType taskWeightType, double progress)
+    {
+        var fileProgress = GetFileProgress(fileItem);
+        var currentWeight = GetFileCompletedWeight(fileItem);
+
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "file-progress",
+            Data = new
+            {
+                taskId = task.TaskId,
+                fileId = fileItem.FileId,
+                fileName = fileItem.FileName,
+                status = taskWeightType == TaskWeightType.Transcode ? "transcoding" : "recognizing",
+                subtask = taskWeightType.ToString(),
+                subtaskProgress = Math.Round(progress, 2),
+                fileProgress = Math.Round(fileProgress, 2),
+                fileWeightProgress = currentWeight,
+                totalWeight = 100,
+                timestamp = DateTime.UtcNow
+            },
+            Retry = 3000
+        };
+    }
+
+    /// <summary>
+    /// 获取文件当前进度
+    /// </summary>
+    private static double GetFileProgress(TaskItem fileItem)
+    {
+        if (fileItem.Metadata["subtaskProgress"] is Dictionary<string, double> subtaskProgress)
+        {
+            var transcodeProgress = subtaskProgress.GetValueOrDefault(nameof(TaskWeightType.Transcode), 0);
+            var asrProgress = subtaskProgress.GetValueOrDefault(nameof(TaskWeightType.ASR), 0);
+
+            // 假设转码和识别各占50%权重
+            return (transcodeProgress + asrProgress) / 2.0;
+        }
+        return 0;
+    }
+
+    /// <summary>
+    /// 更新任务总体百分比
+    /// </summary>
+    private static void UpdateTaskPercentage(TaskInfo task)
+    {
+        if (task.Files.Count == 0)
+        {
+            task.Percentage = 0;
+            return;
+        }
+
+        var completedFiles = task.Files.Count(f => f.Status == FileStatus.Completed);
+        var currentFileIndex = Math.Min(task.CurrentFileIndex, task.Files.Count - 1);
+
+        if (currentFileIndex < task.Files.Count)
+        {
+            var currentFile = task.Files[currentFileIndex];
+            var fileProgress = GetFileProgress(currentFile);
+
+            // 计算总体进度
+            task.Percentage = (completedFiles * 100 + fileProgress) / task.Files.Count;
+        }
+        else
+        {
+            task.Percentage = (double)completedFiles / task.Files.Count * 100;
+        }
+    }
+
+    public async IAsyncEnumerable<SseEvent> CreateTaskProgressEvent(TaskInfo task,
+        PeriodicTimer progressTimer,
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        while (await progressTimer.WaitForNextTickAsync(cancellationToken))
+        {
+            // 定时发送任务进度事件
+            yield return CreateTaskProgressEvent(task);
+        }
+    }
+
+    private static SseEvent CreateTaskStartEvent(TaskInfo task)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "task-start",
+            Data = new
+            {
+                taskId = task.TaskId,
+                taskName = task.TaskName,
+                totalFiles = task.Files.Count,
+                startTime = task.StartTime,
+                message = $"开始处理任务: {task.TaskName}，共 {task.Files.Count} 个文件"
+            }
+        };
+    }
+
+    private static SseEvent CreateFileStartEvent(TaskInfo task, TaskItem fileItem)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "file-start",
+            Data = new
+            {
+                taskId = task.TaskId,
+                fileId = fileItem.FileId,
+                fileName = fileItem.FileName,
+                fileIndex = task.Files.IndexOf(fileItem) + 1,
+                totalFiles = task.Files.Count,
+                message = $"开始处理文件: {fileItem.FileName}"
+            }
+        };
+    }
+
+    private static SseEvent CreateTaskProgressEvent(TaskInfo task)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "task-progress",
+            Data = new
+            {
+                taskId = task.TaskId,
+                taskName = task.TaskName,
+                //overallProgress = task.OverallProgress,
+                completedFiles = task.Files.Count(f => f.Status == FileStatus.Completed),
+                totalFiles = task.Files.Count,
+                //completedSteps = task.CompletedSteps,
+                //totalSteps = task.TotalSteps,
+                currentFileIndex = task.CurrentFileIndex,
+                //currentStepInFile = task.CurrentStepInFile,
+                message = $"总体进度: {task.Percentage:F1}%，已完成 {task.Files.Count(f => f.Status == FileStatus.Completed)}/{task.Files.Count} 个文件",
+                timestamp = DateTime.UtcNow
+            },
+            Retry = 3000
+        };
+    }
+
+    private static SseEvent CreateTaskCompleteEvent(TaskInfo task)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "task-complete",
+            Data = new
+            {
+                taskId = task.TaskId,
+                taskName = task.TaskName,
+                status = "completed",
+                totalTime = (task.EndTime - task.StartTime)?.TotalSeconds,
+                totalFiles = task.Files.Count,
+                successfulFiles = task.Files.Count(f => f.Status == FileStatus.Completed),
+                failedFiles = task.Files.Count(f => f.Status == FileStatus.Failed),
+                message = $"任务完成，成功 {task.Files.Count(f => f.Status == FileStatus.Completed)} 个文件，失败 {task.Files.Count(f => f.Status == FileStatus.Failed)} 个文件"
+            }
+        };
+    }
+
+    private static SseEvent CreateFileErrorEvent(TaskInfo task, TaskItem fileItem, string error)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "file-error",
+            Data = new
+            {
+                taskId = task.TaskId,
+                fileId = fileItem.FileId,
+                fileName = fileItem.FileName,
+                error = error,
+                message = $"文件处理失败: {fileItem.FileName}"
+            }
+        };
+    }
+
+    private static SseEvent CreateTaskErrorEvent(TaskInfo task, string error)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "task-error",
+            Data = new
+            {
+                taskId = task.TaskId,
+                taskName = task.TaskName,
+                error = error,
+                message = $"任务处理失败: {task.TaskName}"
+            }
+        };
+    }
+
+    private static SseEvent CreateTaskCancelledEvent(TaskInfo task)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "task-cancelled",
+            Data = new
+            {
+                taskId = task.TaskId,
+                taskName = task.TaskName,
+                message = "任务已取消",
+                completedFiles = task.Files.Count(f => f.Status == FileStatus.Completed),
+                totalFiles = task.Files.Count
+            }
+        };
+    }
+
+    private static string GetOutputFilePath(ReadOnlySpan<char> filePath)
+    {
+        var path = Path.GetDirectoryName(filePath);
+        var fileName = Path.GetFileNameWithoutExtension(filePath);
+        return Path.Join(path, string.Concat(fileName, ".wav"));
+    }
+
+    /// <summary>
+    /// 处理转码
+    /// </summary>
+    private static async Task ProcessTranscoding(TaskItem fileItem,
+        int weight,
+        Func<Dictionary<string, object>, SseEvent> createProgressEvent,
+        string taskId,
+        CancellationToken cancellationToken)
+    {
+        fileItem.Status = FileStatus.Transcoding;
+        fileItem.FilePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
+        var output = GetOutputFilePath(fileItem.FilePath);
+
+        DateTime lastProgressTime = DateTime.MinValue;
+        Dictionary<string, object> lastProgressData = null;
+
+        void OnPercentageProgess(double percentage)
+        {
+            // File.AppendAllText(@"C:\Users\ke\dev\proj\libs\AI\core\Ke.Ai.Tests\1.txt", $"percentage:{percentage}\n");
+            // 更新转码进度为100%
+            UpdateSubtaskProgress(fileItem, TaskWeightType.Transcode, percentage);
+
+            // 计算文件整体进度
+            var fileProgress = GetFileProgress(fileItem);
+
+            // 准备进度数据
+            var progressData = new Dictionary<string, object>
+            {
+                ["taskId"] = taskId,
+                ["fileId"] = fileItem.FileId,
+                ["fileName"] = fileItem.FileName,
+                ["status"] = "transcoding",
+                ["subtask"] = TaskWeightType.Transcode.ToString(),
+                ["subtaskProgress"] = percentage,
+                ["fileProgress"] = fileProgress,
+                ["currentWeight"] = (int)(percentage / 100.0 * weight),
+                ["totalWeight"] = 100,
+                ["timestamp"] = DateTime.UtcNow
+            };
+
+            // 检查是否需要发送进度更新（至少间隔500ms）
+            var now = DateTime.UtcNow;
+            if (lastProgressData == null ||
+                (now - lastProgressTime).TotalMilliseconds >= ProgressUpdateIntervalMs / 2 ||
+                Math.Abs(percentage - (double)(lastProgressData?["subtaskProgress"] ?? 0)) >= 5) // 进度变化至少5%
+            {
+                // 通过回调发送进度事件
+                var progressEvent = createProgressEvent(progressData);
+                // 这里可以通过某种机制发送事件，比如使用Channel
+                // 由于我们在SendAsync方法中，需要特殊处理
+                lastProgressData = progressData;
+                lastProgressTime = now;
+            }
+        }
+
+        //var temp = 
+        int samplingRate = 16000;
+        var analysis = FFProbe.Analyse(fileItem.FilePath);
+        var progressor = FFMpegArguments
+            .FromFileInput(fileItem.FilePath)
+            .OutputToFile(output, true, opts =>
+            {
+                opts.WithDuration(analysis.Duration);
+                opts.WithCustomArgument($"-ac 1 -ar {samplingRate} -acodec pcm_s16le");
+            })
+            ;
+
+        progressor.NotifyOnProgress(OnPercentageProgess, analysis.Duration);
+
+        await progressor
+            .CancellableThrough(cancellationToken)
+            .ProcessAsynchronously()
+            .ConfigureAwait(false)
+            ;
+
+        // 更新已完成权重
+        UpdateFileWeightProgress(fileItem, weight);
+
+        //fileItem.CompletedSteps++;
+    }
+
+    /// <summary>
+    /// 处理识别
+    /// </summary>
+    private async Task ProcessRecognition(TaskItem fileItem, int weight,
+        Func<Dictionary<string, object>, SseEvent> createProgressEvent,
+        string taskId,
+        CancellationToken cancellationToken)
+    {
+        fileItem.Status = FileStatus.Recognizing;
+        var output = GetOutputFilePath(fileItem.FilePath);
+        DateTime lastProgressTime = DateTime.MinValue;
+        Dictionary<string, object> lastProgressData = null;
+
+        var progress = new Progress<Ke.Ai.Models.Progress>();
+        progress.ProgressChanged += (sender, progress) =>
+        {
+            UpdateSubtaskProgress(fileItem, TaskWeightType.ASR, progress.Percentage);
+            // 计算文件整体进度
+            var fileProgress = GetFileProgress(fileItem);
+
+            // 准备进度数据
+            var progressData = new Dictionary<string, object>
+            {
+                ["taskId"] = taskId,
+                ["fileId"] = fileItem.FileId,
+                ["fileName"] = fileItem.FileName,
+                ["status"] = "recognizing",
+                ["subtask"] = TaskWeightType.ASR.ToString(),
+                ["subtaskProgress"] = progress.Percentage,
+                ["fileProgress"] = fileProgress,
+                ["currentWeight"] = (int)(progress.Percentage / 100.0 * weight),
+                ["totalWeight"] = 100,
+                ["timestamp"] = DateTime.UtcNow
+            };
+
+            // 检查是否需要发送进度更新
+            var now = DateTime.UtcNow;
+            if (lastProgressData == null ||
+                (now - lastProgressTime).TotalMilliseconds >= ProgressUpdateIntervalMs / 2 ||
+                Math.Abs(progress.Percentage - (double)(lastProgressData?["subtaskProgress"] ?? 0)) >= 5)
+            {
+                var progressEvent = createProgressEvent(progressData);
+                lastProgressData = progressData;
+                lastProgressTime = now;
+            }
+        };
+
+        var funAsrNano = _sherpaOptions.FunAsrNano ??
+            throw new ArgumentNullException(nameof(FunAsrNanoModel))
+            ;
+
+        var response = await _asr.RecognizeAsync(new SherpaSpeechRecognizeRequest(output)
+        {
+            FunAsrNano = new FunAsrNanoModel(funAsrNano.EncoderAdaptor,
+                funAsrNano.LLM,
+                funAsrNano.Embedding,
+                funAsrNano.Tokenizer),
+            Tokens = string.Empty,
+            Progress = progress
+        }, cancellationToken);
+
+        File.WriteAllText(@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\16k.srt", response.Text);
+
+        // 更新已完成权重
+        UpdateFileWeightProgress(fileItem, weight);
+
+        //fileItem.CompletedSteps++;
+    }
+
+    /// <summary>
+    /// 创建文件进度事件
+    /// </summary>
+    private static SseEvent CreateFileProgressEvent(TaskInfo task, TaskItem fileItem, Dictionary<string, object> progressData)
+    {
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "file-progress",
+            Data = progressData,
+            Retry = 3000
+        };
+    }
+    
+    /// <summary>
+    /// 更新子任务进度
+    /// </summary>
+    private static void UpdateSubtaskProgress(TaskItem fileItem, TaskWeightType taskWeightType, double progress)
+    {
+        if (fileItem.Metadata["subtaskProgress"] is Dictionary<string, double> subtaskProgress)
+        {
+            subtaskProgress[taskWeightType.ToString()] = progress;
+        }
+    }
+
+    /// <summary>
+    /// 更新文件权重进度
+    /// </summary>
+    private static void UpdateFileWeightProgress(TaskItem fileItem, int weight)
+    {
+        var currentWeight = GetFileCompletedWeight(fileItem);
+        fileItem.Metadata["completedSubtaskWeight"] = currentWeight + weight;
+    }
+
+    /// <summary>
+    /// 获取文件已完成的权重
+    /// </summary>
+    private static int GetFileCompletedWeight(TaskItem fileItem)
+    {
+        return fileItem.Metadata.TryGetValue("completedSubtaskWeight", out var weight)
+            ? (int)weight
+            : 0;
+    }
+
+    /// <summary>
+    /// 获取任务的权重进度
+    /// </summary>
+    private static double GetTaskWeightProgress(TaskInfo task)
+    {
+        if (task.Files.Count == 0) return 0;
+
+        var totalWeightForAllFiles = task.Files.Count * 100; // 每个文件100权重
+        var completedWeightForAllFiles = task.Files.Sum(GetFileCompletedWeight);
+
+        return (double)completedWeightForAllFiles / totalWeightForAllFiles * 100;
+    }
+
+    private static SseEvent CreateSubtaskCompleteEvent(TaskInfo task, TaskItem fileItem,
+        TaskWeightType taskWeightType, int subtaskWeight, int completedWeight)
+    {
+        var subtaskName = taskWeightType.ToString();
+        var subtaskProgress = fileItem.Metadata["subtaskProgress"] as Dictionary<string, int>;
+        var subtaskPercentage = subtaskProgress?[subtaskName] ?? 0;
+
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "subtask-complete",
+            Data = new
+            {
+                taskId = task.TaskId,
+                fileId = fileItem.FileId,
+                fileName = fileItem.FileName,
+                subtask = subtaskName,
+                subtaskWeight,
+                subtaskProgress = subtaskPercentage,
+                fileWeightProgress = completedWeight,
+                totalWeight = 100,
+                message = $"{taskWeightType.ToFriendlyString()} 完成 (权重: {subtaskWeight}%，文件累计权重: {completedWeight}/100)"
+            }
+        };
+    }
+
+    /// <summary>
+    /// 创建任务项
+    /// </summary>
+    private static TaskItem CreateTaskItem(string filePath, int index, int transcodeWeight, int asrWeight)
+    {
+        return new TaskItem
+        {
+            FileName = Path.GetFileName(filePath),
+            FilePath = filePath,
+            //TotalSteps = 2,
+            Metadata = new Dictionary<string, object>
+            {
+                ["index"] = index,
+                ["size"] = new FileInfo(filePath).Length,
+                ["extension"] = Path.GetExtension(filePath),
+                ["transcodingWeight"] = transcodeWeight,
+                ["recognitionWeight"] = asrWeight,
+                ["completedSubtaskWeight"] = 0, // 已完成的权重
+                ["subtaskProgress"] = new Dictionary<string, int>
+                {
+                    [nameof(TaskWeightType.Transcode)] = 0,
+                    [nameof(TaskWeightType.ASR)] = 0
+                }
+            }
+        };
+    }
+
+    private static SseEvent CreateFileCompleteEvent(TaskInfo task, TaskItem fileItem, int completedWeight)
+    {
+        var subtaskProgress = fileItem.Metadata["subtaskProgress"] as Dictionary<string, int>;
+
+        return new SseEvent
+        {
+            Id = Guid.NewGuid().ToString(),
+            EventType = "file-complete",
+            Data = new
+            {
+                taskId = task.TaskId,
+                fileId = fileItem.FileId,
+                fileName = fileItem.FileName,
+                status = "completed",
+                fileWeightProgress = completedWeight,
+                totalWeight = 100,
+                fileProgress = (double)completedWeight / 100 * 100,
+                subtaskProgress,
+                processingTime = (fileItem.EndTime - fileItem.StartTime)?.TotalSeconds,
+                message = $"文件处理完成: {fileItem.FileName} (权重: {completedWeight}/100)"
+            }
+        };
+    }
+
+    private async IAsyncEnumerable<SseEvent> ConsumeProgressAsync(
+        Channel<SubtaskProgress> channel,
+        Task processingTask,
+        TaskInfo task,
+        TaskItem fileItem,
+        [EnumeratorCancellation] CancellationToken ct)
+    {
+        var reader = channel.Reader;
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+        try
+        {
+            while (await reader.WaitToReadAsync(ct))
+            {
+                while (reader.TryRead(out var prog))
+                {
+                    // 构造标准进度事件（与现有事件结构对齐）
+                    yield return new SseEvent
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        EventType = "file-progress",
+                        Data = new
+                        {
+                            taskId = prog.TaskId,
+                            fileId = prog.FileId,
+                            fileName = prog.FileName,
+                            subtask = prog.SubtaskType.ToString(),
+                            progress = Math.Round(prog.Percentage, 2),
+                            timestamp = DateTime.UtcNow,
+                            message = $"{prog.SubtaskType.ToFriendlyString()} 进度: {prog.Percentage:F1}%"
+                        },
+                        Retry = 3000
+                    };
+                }
+                // 检查主任务是否已完成（避免死循环）
+                if (processingTask.IsCompleted) break;
+            }
+        }
+        finally
+        {
+            // 确保 Channel 完全消费完毕
+            while (reader.TryRead(out var prog))
+            {
+                // yield return CreateProgressEvent(prog, task); // 复用构造逻辑
+            }
+            channel.Writer.Complete();
+        }
+    }
+
+    private record SubtaskProgress(
+        TaskWeightType SubtaskType,
+        double Percentage,
+        string TaskId,
+        string FileId,
+        string FileName);
+}

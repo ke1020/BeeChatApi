@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FFMpegCore" Version="5.4.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="C:\Users\ke\dev\proj\libs\AI\core\Ke.Ai.Sherpa\Ke.Ai.Sherpa.csproj" />
     <ProjectReference Include="..\Ke.Tasks.Abstractions\Ke.Tasks.Abstractions.csproj" />
   </ItemGroup>
 

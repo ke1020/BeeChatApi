@@ -21,7 +21,7 @@ public abstract class TaskNotificationBase<T>(ILogger logger,
         throw new ArgumentNullException(nameof(taskWeightOptions))
         ;
 
-    public abstract IAsyncEnumerable<SseEvent> Send(T request,
+    public abstract IAsyncEnumerable<SseEvent> SendAsync(T request,
         CancellationToken cancellationToken = default)
         ;
 

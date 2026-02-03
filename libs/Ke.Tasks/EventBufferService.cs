@@ -1,484 +1,196 @@
-using System.Collections.Concurrent;
 using Ke.Tasks.Abstractions;
 using Ke.Tasks.SSE.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
+using System.Threading.Channels;
 
 namespace Ke.Tasks;
 
 /// <summary>
-/// 事件缓冲服务实现
+/// 事件缓冲服务实现（使用Channel优化）
 /// </summary>
-public class EventBufferService : IEventBufferService, IDisposable
+public class EventBufferService : IEventBufferService
 {
     /// <summary>
     /// 日志记录器
     /// </summary>
     private readonly ILogger<EventBufferService> _logger;
     /// <summary>
-    /// 事件缓冲区配置项
+    /// 事件缓冲配置
     /// </summary>
     private readonly EventBufferOptions _options;
     /// <summary>
-    /// 事件缓冲区，Key: EventId, Value: 事件
+    /// 使用 Channel 作为事件缓冲区（生产者-消费者模式）
     /// </summary>
-    private readonly ConcurrentDictionary<string, SseEvent> _events = new();
+    private readonly Channel<SseEvent> _eventChannel;
     /// <summary>
-    /// 已连接客户端，Key: ClientId, Value: 客户端信息
+    /// 客户端字典
     /// </summary>
     private readonly ConcurrentDictionary<string, SseClient> _clients = new();
     /// <summary>
-    /// 事件顺序队列，用于维护事件的新旧顺序
+    /// 事件字典（用于快速查找）
     /// </summary>
-    private readonly ConcurrentQueue<string> _eventQueue = new();
+    private readonly ConcurrentDictionary<string, SseEvent> _eventStore = new();
     /// <summary>
-    /// 事件ID索引，用于快速查找事件位置
+    /// 事件顺序列表（用于排序和分页）
     /// </summary>
-    private readonly ConcurrentDictionary<string, long> _eventTimestamps = new();
+    private readonly ConcurrentDictionary<string, DateTime> _eventTimestamps = new();
     /// <summary>
-    /// 清理过期事件的计时器
+    /// 清理计时器
     /// </summary>
     private readonly Timer? _cleanupTimer;
     /// <summary>
-    /// 用于读写同步的信号量（支持异步）
-    /// 初始计数：1（允许一个线程进入），最大计数：1
-    /// </summary>
-    private readonly SemaphoreSlim _semaphore = new(1, 1);
-    /// <summary>
-    /// 读取信号量，允许多个读取者，但写入时需要独占
-    /// </summary>
-    private readonly ReaderWriterLockSlim _rwLock = new(LockRecursionPolicy.NoRecursion);
-    /// <summary>
-    /// 是否已释放资源
+    /// 是否已释放
     /// </summary>
     private bool _disposed;
 
     /// <summary>
-    /// 构造函数
+    /// 事件流用于通知新事件（广播给所有监听器）
     /// </summary>
+    private readonly Channel<SseEvent> _eventStream;
+    private readonly CancellationTokenSource _eventStreamCts = new();
+
     public EventBufferService(ILogger<EventBufferService> logger,
         IOptions<EventBufferOptions>? options = null)
     {
         _logger = logger;
         _options = options?.Value ?? new EventBufferOptions();
 
-        // 初始化清理计时器（如果需要）
+        // 创建事件通道（有界通道，避免内存爆炸）
+        _eventChannel = Channel.CreateBounded<SseEvent>(new BoundedChannelOptions(_options.MaxBufferSize)
+        {
+            FullMode = BoundedChannelFullMode.DropOldest, // 缓冲区满时丢弃最旧的事件
+            SingleWriter = false, // 允许多个写入者
+            SingleReader = false  // 允许多个读取者
+        });
+
+        // 创建事件流通道（用于广播）
+        _eventStream = Channel.CreateUnbounded<SseEvent>(new UnboundedChannelOptions
+        {
+            SingleWriter = true,  // 单个写入者（从_eventChannel读取）
+            SingleReader = false  // 多个读取者（所有客户端监听）
+        });
+
+        // 启动事件处理任务
+        _ = ProcessEventsAsync(_eventStreamCts.Token);
+        _ = BroadcastEventsAsync(_eventStreamCts.Token);
+
+        // 初始化清理计时器
         if (_options.EnableAutoCleanup && _options.CleanupIntervalInMinutes > 0)
         {
             _cleanupTimer = new Timer(
-                CleanupCallback,
+                _ => _ = CleanupAsync(),
                 null,
                 TimeSpan.FromMinutes(_options.CleanupIntervalInMinutes),
                 TimeSpan.FromMinutes(_options.CleanupIntervalInMinutes)
             );
-
-            _logger.LogDebug("自动清理计时器已启动，间隔: {Interval}分钟",
-                _options.CleanupIntervalInMinutes)
-                ;
+            _logger.LogDebug("自动清理计时器已启动");
         }
     }
 
     /// <summary>
-    /// 清理回调方法
+    /// 添加事件
     /// </summary>
-    private async void CleanupCallback(object? state)
-    {
-        try
-        {
-            _logger.LogDebug("执行定期清理...");
-
-            // 异步执行清理操作
-            await Task.Run(async () =>
-            {
-                // 清理过期事件
-                await ClearOldEventsAsync(_options.DefaultEventMaxAgeInMinutes);
-
-                // 清理闲置客户端
-                await ClearInactiveClientsAsync(_options.ClientInactiveTimeoutInMinutes);
-            });
-
-            _logger.LogDebug("定期清理完成");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "定期清理过程中发生错误");
-        }
-    }
-
-    /// <summary>
-    /// 添加事件到缓冲区
-    /// </summary>
-    public void AddEvent(SseEvent sseEvent)
+    /// <param name="sseEvent"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async ValueTask AddEventAsync(SseEvent sseEvent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(sseEvent);
 
-        if (string.IsNullOrEmpty(sseEvent.Id))
-        {
-            sseEvent.Id = Guid.NewGuid().ToString();
-        }
+        // 通过Channel写入事件
+        await _eventChannel.Writer.WriteAsync(sseEvent, cancellationToken);
 
-        // 确保时间戳是UTC时间
-        if (sseEvent.Timestamp.Kind != DateTimeKind.Utc)
-        {
-            sseEvent.Timestamp = sseEvent.Timestamp.ToUniversalTime();
-        }
-
-        // 使用写入锁（独占访问）
-        _rwLock.EnterWriteLock();
-        try
-        {
-            // 添加到字典
-            if (_events.TryAdd(sseEvent.Id, sseEvent))
-            {
-                // 添加到队列
-                _eventQueue.Enqueue(sseEvent.Id);
-
-                // 添加到时间戳索引
-                _eventTimestamps.TryAdd(sseEvent.Id, sseEvent.Timestamp.Ticks);
-
-                // 保持缓冲区大小
-                TrimBuffer();
-            }
-        }
-        finally
-        {
-            _rwLock.ExitWriteLock();
-        }
-
-        _logger.LogDebug("事件已添加到缓冲区: {EventId}, 类型: {EventType}, 当前缓冲区大小: {Count}",
-            sseEvent.Id, sseEvent.EventType, _events.Count)
-            ;
+        _logger.LogDebug("事件已加入队列: {EventId}", sseEvent.Id);
     }
 
     /// <summary>
-    /// 异步添加事件到缓冲区
+    /// 获取从指定事件 ID 之后的事件
     /// </summary>
-    public async Task AddEventAsync(SseEvent sseEvent, CancellationToken cancellationToken = default)
+    /// <param name="lastEventId"></param>
+    /// <param name="maxCount"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<SseEvent>> GetEventsSinceAsync(string? lastEventId, 
+        CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(sseEvent);
+        cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrEmpty(sseEvent.Id))
+        var count = _options.MaxEventsPerRequest;
+
+        if (string.IsNullOrEmpty(lastEventId))
         {
-            sseEvent.Id = Guid.NewGuid().ToString();
+            // 返回最近的事件
+            return [.. _eventTimestamps
+                .OrderByDescending(kv => kv.Value)
+                .Take(count)
+                .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
+                .Where(e => e != null)
+                .Cast<SseEvent>()
+                .OrderBy(e => e.Timestamp)];
         }
 
-        // 确保时间戳是UTC时间
-        if (sseEvent.Timestamp.Kind != DateTimeKind.Utc)
+        // 获取指定事件之后的事件
+        if (_eventTimestamps.TryGetValue(lastEventId, out var lastTimestamp))
         {
-            sseEvent.Timestamp = sseEvent.Timestamp.ToUniversalTime();
+            return [.. _eventTimestamps
+                .Where(kv => kv.Value > lastTimestamp)
+                .OrderBy(kv => kv.Value)
+                .Take(count)
+                .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
+                .Where(e => e != null)
+                .Cast<SseEvent>()];
         }
 
-        // 使用信号量进行异步等待
-        await _semaphore.WaitAsync(cancellationToken);
-        try
-        {
-            // 添加到字典
-            if (_events.TryAdd(sseEvent.Id, sseEvent))
-            {
-                // 添加到队列
-                _eventQueue.Enqueue(sseEvent.Id);
-
-                // 添加到时间戳索引
-                _eventTimestamps.TryAdd(sseEvent.Id, sseEvent.Timestamp.Ticks);
-
-                // 保持缓冲区大小
-                TrimBuffer();
-            }
-        }
-        finally
-        {
-            _semaphore.Release();
-        }
-
-        _logger.LogDebug("事件已异步添加到缓冲区: {EventId}, 类型: {EventType}, 当前缓冲区大小: {Count}",
-            sseEvent.Id, sseEvent.EventType, _events.Count)
-            ;
-    }
-
-    /// <summary>
-    /// 获取从 lastEventId 之后的事件
-    /// </summary>
-    public IEnumerable<SseEvent> GetEventsSince(string? lastEventId)
-    {
-        if (string.IsNullOrEmpty(lastEventId) || !_events.ContainsKey(lastEventId))
-        {
-            // 使用读取锁（共享访问）
-            _rwLock.EnterReadLock();
-            try
-            {
-                return GetRecentEvents(_options.DefaultEventCount);
-            }
-            finally
-            {
-                _rwLock.ExitReadLock();
-            }
-        }
-
-        // 使用读取锁（共享访问）
-        _rwLock.EnterReadLock();
-        try
-        {
-            // 获取所有事件并按时间排序
-            var orderedEvents = GetOrderedEvents();
-
-            // 使用二分查找提高性能
-            var index = FindEventIndex(orderedEvents, lastEventId);
-            if (index >= 0 && index < orderedEvents.Count - 1)
-            {
-                // 返回指定数量的事件，避免一次返回太多数据
-                return orderedEvents
-                    .Skip(index + 1)
-                    .Take(_options.MaxEventsPerRequest)
-                    ;
-            }
-
-            return [];
-        }
-        finally
-        {
-            _rwLock.ExitReadLock();
-        }
-    }
-
-    /// <summary>
-    /// 异步获取从 lastEventId 之后的事件
-    /// </summary>
-    public async Task<IEnumerable<SseEvent>> GetEventsSinceAsync(string? lastEventId, CancellationToken cancellationToken = default)
-    {
-        if (string.IsNullOrEmpty(lastEventId) || !_events.ContainsKey(lastEventId))
-        {
-            // 使用信号量进行异步等待
-            await _semaphore.WaitAsync(cancellationToken);
-            try
-            {
-                return GetRecentEvents(_options.DefaultEventCount);
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
-        }
-
-        // 使用信号量进行异步等待
-        await _semaphore.WaitAsync(cancellationToken);
-        try
-        {
-            // 获取所有事件并按时间排序
-            var orderedEvents = GetOrderedEvents();
-
-            // 使用二分查找提高性能
-            var index = FindEventIndex(orderedEvents, lastEventId);
-            if (index >= 0 && index < orderedEvents.Count - 1)
-            {
-                // 返回指定数量的事件，避免一次返回太多数据
-                return orderedEvents
-                    .Skip(index + 1)
-                    .Take(_options.MaxEventsPerRequest)
-                    ;
-            }
-
-            return [];
-        }
-        finally
-        {
-            _semaphore.Release();
-        }
-    }
-
-    /// <summary>
-    /// 获取所有事件（按时间排序）
-    /// </summary>
-    private List<SseEvent> GetOrderedEvents()
-    {
-        // 如果事件数量较少，直接排序
-        if (_events.Count <= _options.SortThreshold)
-        {
-            return [.. _events.Values
-                .OrderBy(e => e.Timestamp)
-                .ThenBy(e => e.Id)]
-                ;
-        }
-
-        // 使用时间戳索引进行排序，提高性能
+        // 如果没有找到指定事件，返回最近的事件
         return [.. _eventTimestamps
-            .OrderBy(kv => kv.Value)
-            .Select(kv => _events.TryGetValue(kv.Key, out var evt) ? evt : null)
-            .Where(e => e != null)
-            .Cast<SseEvent>()]
-            ;
-    }
-
-    /// <summary>
-    /// 查找事件索引
-    /// </summary>
-    private static int FindEventIndex(List<SseEvent> orderedEvents, string lastEventId)
-    {
-        var comparer = Comparer<SseEvent>.Create((a, b) =>
-        {
-            var timeCompare = a.Timestamp.CompareTo(b.Timestamp);
-            return timeCompare != 0 ? timeCompare : string.Compare(a.Id, b.Id, StringComparison.Ordinal);
-        });
-
-        var dummyEvent = new SseEvent { Id = lastEventId };
-        var index = orderedEvents.BinarySearch(dummyEvent, comparer);
-
-        return index >= 0 ? index : -1;
-    }
-
-    /// <summary>
-    /// 获取最近的事件
-    /// </summary>
-    private IEnumerable<SseEvent> GetRecentEvents(int count)
-    {
-        // 从队列尾部开始获取最新的count个事件
-        var recentEventIds = _eventQueue
-            .Reverse()
-            .Where(id => _events.ContainsKey(id))
+            .OrderByDescending(kv => kv.Value)
             .Take(count)
-            .ToList()
-            ;
-
-        return recentEventIds
-            .Select(id => _events.TryGetValue(id, out var evt) ? evt : null)
+            .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
             .Where(e => e != null)
             .Cast<SseEvent>()
-            .OrderBy(e => e.Timestamp)
-            ;
+            .OrderBy(e => e.Timestamp)];
     }
 
     /// <summary>
-    /// 清理缓冲区，保持大小限制
+    /// 获取事件流（长连接模式）
     /// </summary>
-    private void TrimBuffer()
+    /// <param name="lastEventId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async IAsyncEnumerable<SseEvent> GetEventStreamAsync(string? lastEventId = null,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        while (_eventQueue.Count > _options.MaxBufferSize && _eventQueue.TryDequeue(out var oldId))
+        // 先发送历史事件
+        var historicalEvents = await GetEventsSinceAsync(lastEventId, cancellationToken);
+        foreach (var evt in historicalEvents)
         {
-            _events.TryRemove(oldId, out _);
-            _eventTimestamps.TryRemove(oldId, out _);
-        }
-    }
+            if (cancellationToken.IsCancellationRequested)
+                yield break;
 
-    /// <summary>
-    /// 清理过期事件
-    /// </summary>
-    public void ClearOldEvents(int? maxAgeInMinutes = null)
-    {
-        var age = maxAgeInMinutes ?? _options.DefaultEventMaxAgeInMinutes;
-        var cutoffTime = DateTime.UtcNow.AddMinutes(-age);
-
-        // 使用写入锁（独占访问）
-        _rwLock.EnterWriteLock();
-        try
-        {
-            // 使用时间戳索引查找过期事件
-            var oldEventIds = _eventTimestamps
-                .Where(kv => new DateTime(kv.Value) < cutoffTime)
-                .Select(kv => kv.Key)
-                .ToList()
-                ;
-
-            if (oldEventIds.Count == 0)
-                return;
-
-            int removedCount = 0;
-            foreach (var eventId in oldEventIds)
-            {
-                if (_events.TryRemove(eventId, out _))
-                {
-                    _eventTimestamps.TryRemove(eventId, out _);
-                    removedCount++;
-                }
-            }
-
-            // 重建队列（移除已删除的事件）
-            if (removedCount > 0)
-            {
-                RebuildEventQueue();
-            }
-
-            _logger.LogInformation("已清理 {RemovedCount} 个过期事件（超过 {Age} 分钟）",
-                removedCount, age)
-                ;
-        }
-        finally
-        {
-            _rwLock.ExitWriteLock();
-        }
-    }
-
-    /// <summary>
-    /// 异步清理过期事件
-    /// </summary>
-    public async Task ClearOldEventsAsync(int? maxAgeInMinutes = null, CancellationToken cancellationToken = default)
-    {
-        var age = maxAgeInMinutes ?? _options.DefaultEventMaxAgeInMinutes;
-        var cutoffTime = DateTime.UtcNow.AddMinutes(-age);
-
-        // 使用信号量进行异步等待
-        await _semaphore.WaitAsync(cancellationToken);
-        try
-        {
-            // 使用时间戳索引查找过期事件
-            var oldEventIds = _eventTimestamps
-                .Where(kv => new DateTime(kv.Value) < cutoffTime)
-                .Select(kv => kv.Key)
-                .ToList()
-                ;
-
-            if (oldEventIds.Count == 0)
-                return;
-
-            int removedCount = 0;
-            foreach (var eventId in oldEventIds)
-            {
-                if (_events.TryRemove(eventId, out _))
-                {
-                    _eventTimestamps.TryRemove(eventId, out _);
-                    removedCount++;
-                }
-            }
-
-            // 重建队列（移除已删除的事件）
-            if (removedCount > 0)
-            {
-                RebuildEventQueue();
-            }
-
-            _logger.LogInformation("已异步清理 {RemovedCount} 个过期事件（超过 {Age} 分钟）",
-                removedCount, age)
-                ;
-        }
-        finally
-        {
-            _semaphore.Release();
-        }
-    }
-
-    /// <summary>
-    /// 重建事件队列
-    /// </summary>
-    private void RebuildEventQueue()
-    {
-        var newQueue = new ConcurrentQueue<string>();
-
-        // 按时间顺序重新填充队列
-        foreach (var kv in _eventTimestamps.OrderBy(kv => kv.Value))
-        {
-            newQueue.Enqueue(kv.Key);
+            yield return evt;
         }
 
-        // 清空并重新填充队列
-        while (_eventQueue.TryDequeue(out _)) { }
-        foreach (var item in newQueue)
+        // 然后监听新事件
+        await foreach (var evt in _eventStream.Reader.ReadAllAsync(cancellationToken))
         {
-            _eventQueue.Enqueue(item);
+            if (cancellationToken.IsCancellationRequested)
+                yield break;
+
+            yield return evt;
         }
     }
 
     /// <summary>
     /// 添加客户端
     /// </summary>
-    public void AddClient(string clientId, string? lastEventId = null)
+    /// <param name="clientId"></param>
+    /// <param name="lastEventId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    public ValueTask AddClientAsync(string clientId, string? lastEventId = null, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(clientId))
             throw new ArgumentException("ClientId cannot be null or empty", nameof(clientId));
@@ -489,119 +201,78 @@ public class EventBufferService : IEventBufferService, IDisposable
             LastActivityAt = DateTime.UtcNow
         };
 
-        // 客户端管理使用轻量级同步，不需要强一致性锁
         if (_clients.TryAdd(clientId, client))
         {
-            _logger.LogInformation("客户端已连接: {ClientId}, LastEventId: {LastEventId}, 当前客户端数: {ClientCount}",
-                clientId, lastEventId, _clients.Count)
-                ;
+            _logger.LogInformation("客户端已连接: {ClientId}", clientId);
         }
-        else
-        {
-            _logger.LogWarning("客户端已存在: {ClientId}", clientId);
-        }
-    }
 
-    /// <summary>
-    /// 异步添加客户端
-    /// </summary>
-    public Task AddClientAsync(string clientId, string? lastEventId = null, CancellationToken cancellationToken = default)
-    {
-        AddClient(clientId, lastEventId);
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 
     /// <summary>
     /// 移除客户端
     /// </summary>
-    public bool RemoveClient(string clientId)
+    /// <param name="clientId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public ValueTask<bool> RemoveClientAsync(string clientId, CancellationToken cancellationToken = default)
     {
         if (_clients.TryRemove(clientId, out var client))
         {
-            _logger.LogInformation("客户端已断开: {ClientId}, 连接时长: {Duration:F1}秒",
-                clientId, (DateTime.UtcNow - client.ConnectedAt).TotalSeconds);
-            return true;
+            _logger.LogInformation("客户端已断开: {ClientId}", clientId);
+            return ValueTask.FromResult(true);
         }
-        return false;
+        return ValueTask.FromResult(false);
     }
 
     /// <summary>
-    /// 异步移除客户端
+    /// 更新客户端最后事件 ID
     /// </summary>
-    public Task<bool> RemoveClientAsync(string clientId, CancellationToken cancellationToken = default)
-    {
-        return Task.FromResult(RemoveClient(clientId));
-    }
-
-    /// <summary>
-    /// 更新客户端的 LastEventId
-    /// </summary>
-    public bool UpdateClientLastEventId(string clientId, string lastEventId)
+    /// <param name="clientId"></param>
+    /// <param name="lastEventId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public ValueTask<bool> UpdateClientLastEventIdAsync(string clientId, string lastEventId, CancellationToken cancellationToken = default)
     {
         if (_clients.TryGetValue(clientId, out var client))
         {
             client.LastEventId = lastEventId;
             client.LastActivityAt = DateTime.UtcNow;
-
-            _logger.LogDebug("更新客户端 {ClientId} 的 LastEventId: {LastEventId}",
-                clientId, lastEventId)
-                ;
-            return true;
+            return ValueTask.FromResult(true);
         }
-
-        _logger.LogWarning("尝试更新不存在的客户端: {ClientId}", clientId);
-        return false;
-    }
-
-    /// <summary>
-    /// 异步更新客户端的 LastEventId
-    /// </summary>
-    public Task<bool> UpdateClientLastEventIdAsync(string clientId, string lastEventId, CancellationToken cancellationToken = default)
-    {
-        return Task.FromResult(UpdateClientLastEventId(clientId, lastEventId));
+        return ValueTask.FromResult(false);
     }
 
     /// <summary>
     /// 获取已连接客户端
     /// </summary>
-    public IEnumerable<SseClient> GetConnectedClients() => _clients.Values;
-
-    /// <summary>
-    /// 异步获取已连接客户端
-    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public Task<IEnumerable<SseClient>> GetConnectedClientsAsync(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(GetConnectedClients());
+        return Task.FromResult<IEnumerable<SseClient>>([.. _clients.Values]);
     }
 
     /// <summary>
-    /// 获取客户端数量
+    /// 清理过期事件
     /// </summary>
-    public int GetClientCount() => _clients.Count;
-
-    /// <summary>
-    /// 获取事件数量
-    /// </summary>
-    public int GetEventCount() => _events.Count;
-
-    /// <summary>
-    /// 清理闲置客户端
-    /// </summary>
-    public void ClearInactiveClients(int? maxInactiveMinutes = null)
+    /// <param name="maxAgeInMinutes"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async ValueTask ClearOldEventsAsync(int? maxAgeInMinutes = null, CancellationToken cancellationToken = default)
     {
-        var timeout = maxInactiveMinutes ?? _options.ClientInactiveTimeoutInMinutes;
-        var cutoffTime = DateTime.UtcNow.AddMinutes(-timeout);
+        var age = maxAgeInMinutes ?? _options.DefaultEventMaxAgeInMinutes;
+        var cutoffTime = DateTime.UtcNow.AddMinutes(-age);
 
-        var inactiveClients = _clients
-            .Where(kv => kv.Value.LastActivityAt < cutoffTime)
+        var oldEventIds = _eventTimestamps
+            .Where(kv => kv.Value < cutoffTime)
             .Select(kv => kv.Key)
-            .ToList()
-            ;
+            .ToList();
 
         int removedCount = 0;
-        foreach (var clientId in inactiveClients)
+        foreach (var eventId in oldEventIds)
         {
-            if (RemoveClient(clientId))
+            if (_eventStore.TryRemove(eventId, out _) && _eventTimestamps.TryRemove(eventId, out _))
             {
                 removedCount++;
             }
@@ -609,16 +280,18 @@ public class EventBufferService : IEventBufferService, IDisposable
 
         if (removedCount > 0)
         {
-            _logger.LogInformation("已清理 {Count} 个闲置客户端（超过 {Timeout} 分钟无活动）",
-                removedCount, timeout)
-                ;
+            _logger.LogInformation("已清理过期事件: {Count}", removedCount);
         }
     }
 
     /// <summary>
-    /// 异步清理闲置客户端
+    /// 清理闲置客户端
     /// </summary>
-    public async Task ClearInactiveClientsAsync(int? maxInactiveMinutes = null, CancellationToken cancellationToken = default)
+    /// <param name="maxInactiveMinutes"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async ValueTask ClearInactiveClientsAsync(int? maxInactiveMinutes = null,
+        CancellationToken cancellationToken = default)
     {
         var timeout = maxInactiveMinutes ?? _options.ClientInactiveTimeoutInMinutes;
         var cutoffTime = DateTime.UtcNow.AddMinutes(-timeout);
@@ -626,8 +299,7 @@ public class EventBufferService : IEventBufferService, IDisposable
         var inactiveClients = _clients
             .Where(kv => kv.Value.LastActivityAt < cutoffTime)
             .Select(kv => kv.Key)
-            .ToList()
-            ;
+            .ToList();
 
         int removedCount = 0;
         foreach (var clientId in inactiveClients)
@@ -640,65 +312,131 @@ public class EventBufferService : IEventBufferService, IDisposable
 
         if (removedCount > 0)
         {
-            _logger.LogInformation("已异步清理 {Count} 个闲置客户端（超过 {Timeout} 分钟无活动）",
-                removedCount, timeout)
-                ;
+            _logger.LogInformation("已清理闲置客户端: {Count}", removedCount);
         }
     }
 
     /// <summary>
-    /// 获取服务统计信息
+    /// 获取统计信息
     /// </summary>
-    public EventBufferStatistics GetStatistics()
-    {
-        // 使用读取锁（共享访问）
-        _rwLock.EnterReadLock();
-        try
-        {
-            return new EventBufferStatistics
-            {
-                TotalEvents = _events.Count,
-                TotalClients = _clients.Count,
-                QueueLength = _eventQueue.Count,
-                OldestEventTime = !_eventTimestamps.IsEmpty
-                    ? new DateTime(_eventTimestamps.Values.Min())
-                    : DateTime.UtcNow,
-                NewestEventTime = !_eventTimestamps.IsEmpty
-                    ? new DateTime(_eventTimestamps.Values.Max())
-                    : DateTime.UtcNow
-            };
-        }
-        finally
-        {
-            _rwLock.ExitReadLock();
-        }
-    }
-
-    /// <summary>
-    /// 异步获取服务统计信息
-    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     public async Task<EventBufferStatistics> GetStatisticsAsync(CancellationToken cancellationToken = default)
     {
-        // 使用信号量进行异步等待
-        await _semaphore.WaitAsync(cancellationToken);
+        return await Task.FromResult(new EventBufferStatistics
+        {
+            TotalEvents = _eventStore.Count,
+            TotalClients = _clients.Count,
+            OldestEventTime = !_eventTimestamps.IsEmpty
+                ? _eventTimestamps.Values.Min()
+                : DateTime.UtcNow,
+            NewestEventTime = !_eventTimestamps.IsEmpty
+                ? _eventTimestamps.Values.Max()
+                : DateTime.UtcNow
+        });
+    }
+
+    public int GetClientCount() => _clients.Count;
+    public int GetEventCount() => _eventStore.Count;
+
+    /// <summary>
+    /// 异步清理任务
+    /// </summary>
+    private async Task CleanupAsync()
+    {
         try
         {
-            return new EventBufferStatistics
-            {
-                TotalEvents = _events.Count,
-                TotalClients = _clients.Count,
-                QueueLength = _eventQueue.Count,
-                OldestEventTime = !_eventTimestamps.IsEmpty
-                    ? new DateTime(_eventTimestamps.Values.Min())
-                    : DateTime.UtcNow,
-                NewestEventTime = !_eventTimestamps.IsEmpty
-                    ? new DateTime(_eventTimestamps.Values.Max())
-                    : DateTime.UtcNow
-            };
+            _logger.LogDebug("执行定期清理...");
+            await ClearOldEventsAsync();
+            await ClearInactiveClientsAsync();
+            _logger.LogDebug("定期清理完成");
         }
-        finally
+        catch (Exception ex)
         {
-            _semaphore.Release();
+            _logger.LogError(ex, "定期清理过程中发生错误");
+        }
+    }
+
+    /// <summary>
+    /// 处理事件并存储到内存中
+    /// </summary>
+    private async Task ProcessEventsAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            await foreach (var sseEvent in _eventChannel.Reader.ReadAllAsync(cancellationToken))
+            {
+                try
+                {
+                    // 存储事件
+                    StoreEvent(sseEvent);
+
+                    // 广播事件
+                    await _eventStream.Writer.WriteAsync(sseEvent, cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "处理事件时发生错误: {EventId}", sseEvent.Id);
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // 正常退出
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "事件处理任务发生错误");
+        }
+    }
+
+    /// <summary>
+    /// 广播事件给所有客户端（如果需要）
+    /// 实际应用中，这个可以根据需要实现，比如客户端连接时获取自己的事件流
+    /// </summary>
+    private async Task BroadcastEventsAsync(CancellationToken cancellationToken)
+    {
+        // 这里可以维护客户端特定的通道，实现定向推送
+        // 当前实现是统一的广播流
+        // 实际应用中，可以为每个客户端创建独立的Channel
+    }
+
+    /// <summary>
+    /// 存储事件到内存字典
+    /// </summary>
+    private void StoreEvent(SseEvent sseEvent)
+    {
+        if (string.IsNullOrEmpty(sseEvent.Id))
+            sseEvent.Id = Guid.NewGuid().ToString();
+
+        if (sseEvent.Timestamp.Kind != DateTimeKind.Utc)
+            sseEvent.Timestamp = sseEvent.Timestamp.ToUniversalTime();
+
+        // 添加到存储
+        if (_eventStore.TryAdd(sseEvent.Id, sseEvent))
+        {
+            _eventTimestamps.TryAdd(sseEvent.Id, sseEvent.Timestamp);
+
+            // 维护存储大小
+            if (_eventStore.Count > _options.MaxBufferSize)
+            {
+                RemoveOldestEvent();
+            }
+
+            _logger.LogDebug("事件已存储: {EventId}", sseEvent.Id);
+        }
+    }
+
+    /// <summary>
+    /// 移除最旧的事件
+    /// </summary>
+    private void RemoveOldestEvent()
+    {
+        var oldest = _eventTimestamps.OrderBy(kv => kv.Value).FirstOrDefault();
+        if (!string.IsNullOrEmpty(oldest.Key))
+        {
+            _eventStore.TryRemove(oldest.Key, out _);
+            _eventTimestamps.TryRemove(oldest.Key, out _);
         }
     }
 
@@ -707,26 +445,15 @@ public class EventBufferService : IEventBufferService, IDisposable
     /// </summary>
     public void Dispose()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// 释放资源的实现
-    /// </summary>
-    protected virtual void Dispose(bool disposing)
-    {
         if (!_disposed)
         {
-            if (disposing)
-            {
-                // 清理托管资源
-                _cleanupTimer?.Dispose();
-                _semaphore?.Dispose();
-                _rwLock?.Dispose();
-            }
-
             _disposed = true;
+            _eventStreamCts.Cancel();
+            _cleanupTimer?.Dispose();
+            _eventStream.Writer.TryComplete();
+            _eventChannel.Writer.TryComplete();
+            _eventStreamCts.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

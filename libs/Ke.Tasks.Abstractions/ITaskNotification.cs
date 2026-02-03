@@ -8,7 +8,7 @@ namespace Ke.Tasks.Abstractions;
 /// </summary>
 public interface ITaskNotification<T> where T : TaskNotificationRequest
 {
-    IAsyncEnumerable<SseEvent> Send(T request,
+    IAsyncEnumerable<SseEvent> SendAsync(T request,
         CancellationToken cancellationToken = default)
         ;
 }

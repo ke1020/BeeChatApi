@@ -28,6 +28,7 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 using Ke.Tasks;
+using Ke.Ai.Sherpa;
 
 namespace Ke.Chat;
 
@@ -80,7 +81,7 @@ public class ChatHttpApiHostModule : AbpModule
             },
             options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo {Title = "Chat API", Version = "v1"});
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Chat API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
             });
@@ -151,6 +152,14 @@ public class ChatHttpApiHostModule : AbpModule
         //context.Services.AddChat();
         //context.Services.AddSse();
         context.Services.AddTasks();
+        context.Services.AddSherpa(opts =>
+        {
+            new ConfigurationBuilder()
+                .AddJsonFile(@"C:\Users\ke\dev\proj\libs\AI\core\Ke.Ai.Sherpa.Tests\sherpa.json")
+                .Build()
+                .Bind(opts)
+                ;
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
