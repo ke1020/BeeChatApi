@@ -20,9 +20,9 @@ public class EventBufferStatistics
     /// <summary>
     /// 最旧事件时间
     /// </summary>
-    public DateTime OldestEventTime { get; set; }
+    public long OldestEventTime { get; set; }
     /// <summary>
     /// 最新事件时间
     /// </summary>
-    public DateTime NewestEventTime { get; set; }
+    public long NewestEventTime { get; set; }
 }

@@ -34,3 +34,16 @@ public class ChatRequest
     /// </summary>
     public bool ThinkingEnabled { get; set; } = false;
 }
+
+/// <summary>
+/// 会话
+/// </summary>
+public class ChatSession
+{
+    public Guid Id { get; set; } = Guid.CreateVersion7();
+    public string? Title { get; set; }
+    public bool Pinned { get; set; } = false;
+    public DateTime CreateAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdateAt { get; set; } = DateTime.UtcNow;
+    public int CurrentMessageId { get; set; }
+}

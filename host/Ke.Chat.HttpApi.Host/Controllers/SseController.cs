@@ -31,12 +31,32 @@ public class SseController(ILogger<SseController> logger,
     private readonly IChat _chat = chat;
 
     /// <summary>
+    /// 带进度更新的流式任务
+    /// </summary>
+    [HttpGet("progress-task")]
+    public ServerSentEventsResult<SseEvent> ProgressTaskStream(
+        [FromQuery] string taskName = "处理任务",
+        [FromHeader(Name = "Last-Event-ID")] string? lastEventId = null)
+    {
+        return TypedResults.ServerSentEvents(
+            _chat.SendAsync(new Tasks.Models.Chats.ChatRequest
+            {
+                Prompt = string.Empty,
+                RefFileIds = [@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\FodyWeavers.xml"],
+                TaskType = "asr"
+            }))
+            ;
+    }
+
+    /*
+
+    /// <summary>
     /// SSE 流式端点 - 支持重连
     /// </summary>
     /// <param name="lastEventId">上次接收的事件ID（从 Last-Event-ID 头部获取）</param>
     [HttpGet("stream")]
     public async Task<ServerSentEventsResult<SseEvent>> GetEventStream(
-        /*[FromHeader(Name = "Last-Event-ID")]*/ string? lastEventId = null)
+        [FromHeader(Name = "Last-Event-ID")] string? lastEventId = null)
     {
         var clientId = Guid.NewGuid().ToString();
         _logger.LogInformation("新SSE连接: {ClientId}, LastEventId: {LastEventId}",
@@ -72,23 +92,7 @@ public class SseController(ILogger<SseController> logger,
             GenerateChatStream(question, lastEventId));
     }
 
-    /// <summary>
-    /// 带进度更新的流式任务
-    /// </summary>
-    [HttpGet("progress-task")]
-    public ServerSentEventsResult<object> ProgressTaskStream(
-        [FromQuery] string taskName = "处理任务",
-        [FromHeader(Name = "Last-Event-ID")] string? lastEventId = null)
-    {
-        return TypedResults.ServerSentEvents(
-            _chat.SendAsync(new Tasks.Models.Chats.ChatRequest
-            {
-                Prompt = string.Empty,
-                RefFileIds = [@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\FodyWeavers.xml"],
-                TaskType = "asr"
-            }))
-            ;
-    }
+    
 
     /// <summary>
     /// 实时数据更新流
@@ -141,6 +145,8 @@ public class SseController(ILogger<SseController> logger,
 
         return NotFound(new { Error = "客户端未找到" });
     }
+
+    
 
     /// <summary>
     /// 生成事件流的核心方法
@@ -463,6 +469,7 @@ public class SseController(ILogger<SseController> logger,
             await Task.Delay(2000, cancellationToken);
         }
     }
+    */
 
     private class ClientDisposer(
         string clientId,

@@ -1,4 +1,5 @@
 using Ke.Tasks.Abstractions;
+using Ke.Tasks.Models.Chats;
 using Ke.Tasks.SSE.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,7 +25,9 @@ public class EventBufferService : IEventBufferService
     /// <summary>
     /// 使用 Channel 作为事件缓冲区（生产者-消费者模式）
     /// </summary>
-    private readonly Channel<SseEvent> _eventChannel;
+    private readonly Channel<SseEventBufferData> _eventChannel;
+    // 新增会话存储
+    private readonly ConcurrentDictionary<string, ChatRequest> _sessions = new();
     /// <summary>
     /// 客户端字典
     /// </summary>
@@ -32,11 +35,11 @@ public class EventBufferService : IEventBufferService
     /// <summary>
     /// 事件字典（用于快速查找）
     /// </summary>
-    private readonly ConcurrentDictionary<string, SseEvent> _eventStore = new();
+    private readonly ConcurrentDictionary<string, SseEventBufferData> _eventStore = new();
     /// <summary>
     /// 事件顺序列表（用于排序和分页）
     /// </summary>
-    private readonly ConcurrentDictionary<string, DateTime> _eventTimestamps = new();
+    private readonly ConcurrentDictionary<string, long> _eventTimestamps = new();
     /// <summary>
     /// 清理计时器
     /// </summary>
@@ -49,7 +52,7 @@ public class EventBufferService : IEventBufferService
     /// <summary>
     /// 事件流用于通知新事件（广播给所有监听器）
     /// </summary>
-    private readonly Channel<SseEvent> _eventStream;
+    private readonly Channel<SseEventBufferData> _eventStream;
     private readonly CancellationTokenSource _eventStreamCts = new();
 
     public EventBufferService(ILogger<EventBufferService> logger,
@@ -59,7 +62,7 @@ public class EventBufferService : IEventBufferService
         _options = options?.Value ?? new EventBufferOptions();
 
         // 创建事件通道（有界通道，避免内存爆炸）
-        _eventChannel = Channel.CreateBounded<SseEvent>(new BoundedChannelOptions(_options.MaxBufferSize)
+        _eventChannel = Channel.CreateBounded<SseEventBufferData>(new BoundedChannelOptions(_options.MaxBufferSize)
         {
             FullMode = BoundedChannelFullMode.DropOldest, // 缓冲区满时丢弃最旧的事件
             SingleWriter = false, // 允许多个写入者
@@ -67,7 +70,7 @@ public class EventBufferService : IEventBufferService
         });
 
         // 创建事件流通道（用于广播）
-        _eventStream = Channel.CreateUnbounded<SseEvent>(new UnboundedChannelOptions
+        _eventStream = Channel.CreateUnbounded<SseEventBufferData>(new UnboundedChannelOptions
         {
             SingleWriter = true,  // 单个写入者（从_eventChannel读取）
             SingleReader = false  // 多个读取者（所有客户端监听）
@@ -88,6 +91,8 @@ public class EventBufferService : IEventBufferService
             );
             _logger.LogDebug("自动清理计时器已启动");
         }
+
+        _eventTimestamps.AddOrUpdate("", 1, (key, v) => { return v + 1;});
     }
 
     /// <summary>
@@ -96,11 +101,11 @@ public class EventBufferService : IEventBufferService
     /// <param name="sseEvent"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async ValueTask AddEventAsync(SseEvent sseEvent, CancellationToken cancellationToken = default)
+    public async ValueTask AddEventAsync(SseEventBufferData sseEvent, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(sseEvent);
 
-        // 通过Channel写入事件
+        // 通过 Channel 写入事件
         await _eventChannel.Writer.WriteAsync(sseEvent, cancellationToken);
 
         _logger.LogDebug("事件已加入队列: {EventId}", sseEvent.Id);
@@ -112,7 +117,7 @@ public class EventBufferService : IEventBufferService
     /// <param name="lastEventId"></param>
     /// <param name="maxCount"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<SseEvent>> GetEventsSinceAsync(string? lastEventId, 
+    public async Task<IEnumerable<SseEventBufferData>> GetEventsSinceAsync(string? lastEventId, 
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -127,7 +132,7 @@ public class EventBufferService : IEventBufferService
                 .Take(count)
                 .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
                 .Where(e => e != null)
-                .Cast<SseEvent>()
+                .Cast<SseEventBufferData>()
                 .OrderBy(e => e.Timestamp)];
         }
 
@@ -140,7 +145,7 @@ public class EventBufferService : IEventBufferService
                 .Take(count)
                 .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
                 .Where(e => e != null)
-                .Cast<SseEvent>()];
+                .Cast<SseEventBufferData>()];
         }
 
         // 如果没有找到指定事件，返回最近的事件
@@ -149,7 +154,7 @@ public class EventBufferService : IEventBufferService
             .Take(count)
             .Select(kv => _eventStore.TryGetValue(kv.Key, out var evt) ? evt : null)
             .Where(e => e != null)
-            .Cast<SseEvent>()
+            .Cast<SseEventBufferData>()
             .OrderBy(e => e.Timestamp)];
     }
 
@@ -159,7 +164,7 @@ public class EventBufferService : IEventBufferService
     /// <param name="lastEventId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async IAsyncEnumerable<SseEvent> GetEventStreamAsync(string? lastEventId = null,
+    public async IAsyncEnumerable<SseEventBufferData> GetEventStreamAsync(string? lastEventId = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         // 先发送历史事件
@@ -262,7 +267,7 @@ public class EventBufferService : IEventBufferService
     public async ValueTask ClearOldEventsAsync(int? maxAgeInMinutes = null, CancellationToken cancellationToken = default)
     {
         var age = maxAgeInMinutes ?? _options.DefaultEventMaxAgeInMinutes;
-        var cutoffTime = DateTime.UtcNow.AddMinutes(-age);
+        var cutoffTime = DateTimeOffset.Now.AddMinutes(-age).ToUnixTimeMilliseconds();
 
         var oldEventIds = _eventTimestamps
             .Where(kv => kv.Value < cutoffTime)
@@ -329,10 +334,10 @@ public class EventBufferService : IEventBufferService
             TotalClients = _clients.Count,
             OldestEventTime = !_eventTimestamps.IsEmpty
                 ? _eventTimestamps.Values.Min()
-                : DateTime.UtcNow,
+                : DateTimeOffset.Now.ToUnixTimeMilliseconds(),
             NewestEventTime = !_eventTimestamps.IsEmpty
                 ? _eventTimestamps.Values.Max()
-                : DateTime.UtcNow
+                : DateTimeOffset.Now.ToUnixTimeMilliseconds()
         });
     }
 
@@ -404,13 +409,15 @@ public class EventBufferService : IEventBufferService
     /// <summary>
     /// 存储事件到内存字典
     /// </summary>
-    private void StoreEvent(SseEvent sseEvent)
+    private void StoreEvent(SseEventBufferData sseEvent)
     {
+        /*
         if (string.IsNullOrEmpty(sseEvent.Id))
             sseEvent.Id = Guid.NewGuid().ToString();
 
         if (sseEvent.Timestamp.Kind != DateTimeKind.Utc)
             sseEvent.Timestamp = sseEvent.Timestamp.ToUniversalTime();
+            */
 
         // 添加到存储
         if (_eventStore.TryAdd(sseEvent.Id, sseEvent))

@@ -20058,3 +20058,299 @@ ActivatorChain = Ke.Chat.Controllers.SseController
 2026-02-03 21:57:03.781 +08:00 [DBG] 执行定期清理...
 2026-02-03 21:57:03.784 +08:00 [DBG] 定期清理完成
 2026-02-03 22:00:31.800 +08:00 [INF] Application is shutting down...
+2026-02-04 16:42:14.835 +08:00 [INF] Starting web host.
+2026-02-04 16:42:19.249 +08:00 [DBG] Loaded ABP modules:
+2026-02-04 16:42:19.250 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-04 16:42:19.250 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-04 16:42:19.250 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-04 16:42:19.250 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-04 16:42:19.250 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-04 16:42:19.250 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-04 16:42:19.250 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-04 16:42:19.250 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-04 16:42:19.250 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-04 16:42:19.250 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-04 16:42:19.250 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-04 16:42:19.250 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-04 16:42:19.250 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-04 16:42:19.569 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-04 16:42:19.627 +08:00 [INF] Initialized all ABP modules.
+2026-02-04 16:42:19.881 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-04 16:42:19.881 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-04 16:42:19.881 +08:00 [INF] Hosting environment: Development
+2026-02-04 16:42:19.881 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-04 16:42:20.018 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-04 16:42:21.287 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 16:42:21.306 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-04 16:42:21.328 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-04 16:42:21.331 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 22.3469ms
+2026-02-04 16:42:21.331 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 16:42:21.339 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 1321.6986ms
+2026-02-04 16:42:21.355 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-04 16:42:21.361 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 7.016ms
+2026-02-04 16:42:21.404 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-04 16:42:21.579 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 175.0195ms
+2026-02-04 16:44:35.030 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.html - null null
+2026-02-04 16:44:35.068 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.html - 200 null text/html;charset=utf-8 37.8339ms
+2026-02-04 16:44:35.075 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-04 16:44:35.076 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 0.474ms
+2026-02-04 16:44:35.131 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-04 16:44:35.135 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/favicon-32x32.png - null null
+2026-02-04 16:44:35.141 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/favicon-32x32.png - 200 628 image/png 5.5313ms
+2026-02-04 16:44:35.158 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 26.8748ms
+2026-02-04 17:19:29.537 +08:00 [INF] Application is shutting down...
+2026-02-04 17:21:27.820 +08:00 [INF] Starting web host.
+2026-02-04 17:21:28.512 +08:00 [DBG] Loaded ABP modules:
+2026-02-04 17:21:28.513 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-04 17:21:28.513 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-04 17:21:28.513 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-04 17:21:28.513 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-04 17:21:28.513 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-04 17:21:28.513 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-04 17:21:28.513 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-04 17:21:28.513 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-04 17:21:28.513 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-04 17:21:28.513 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-04 17:21:28.513 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-04 17:21:28.513 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-04 17:21:28.513 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-04 17:21:28.714 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-04 17:21:28.770 +08:00 [INF] Initialized all ABP modules.
+2026-02-04 17:21:28.936 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-04 17:21:28.936 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-04 17:21:28.936 +08:00 [INF] Hosting environment: Development
+2026-02-04 17:21:28.936 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-04 17:21:29.061 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-04 17:21:30.124 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:21:30.142 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-04 17:21:30.162 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-04 17:21:30.165 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 20.2391ms
+2026-02-04 17:21:30.165 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:21:30.170 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 1110.1754ms
+2026-02-04 17:21:30.184 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-04 17:21:30.189 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 5.449ms
+2026-02-04 17:21:30.232 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-04 17:21:30.382 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 149.4845ms
+2026-02-04 17:22:50.028 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task - null null
+2026-02-04 17:22:50.040 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:22:50.048 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(System.String, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-04 17:22:50.059 +08:00 [DBG] 自动清理计时器已启动
+2026-02-04 17:22:50.080 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 31.7617ms
+2026-02-04 17:22:50.080 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:22:50.081 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task - 200 null text/event-stream 52.5264ms
+2026-02-04 17:22:50.101 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/favicon.ico - null null
+2026-02-04 17:22:50.102 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/favicon.ico - 404 0 null 1.3384ms
+2026-02-04 17:22:50.102 +08:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44300/favicon.ico, Response status code: 404
+2026-02-04 17:25:23.882 +08:00 [INF] Application is shutting down...
+2026-02-04 17:25:31.696 +08:00 [INF] Starting web host.
+2026-02-04 17:25:32.290 +08:00 [DBG] Loaded ABP modules:
+2026-02-04 17:25:32.290 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-04 17:25:32.290 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-04 17:25:32.290 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-04 17:25:32.290 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-04 17:25:32.291 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-04 17:25:32.291 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-04 17:25:32.291 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-04 17:25:32.291 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-04 17:25:32.291 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-04 17:25:32.291 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-04 17:25:32.291 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-04 17:25:32.291 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-04 17:25:32.291 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-04 17:25:32.291 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-04 17:25:32.291 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-04 17:25:32.291 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-04 17:25:32.486 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-04 17:25:32.539 +08:00 [INF] Initialized all ABP modules.
+2026-02-04 17:25:32.696 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-04 17:25:32.696 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-04 17:25:32.696 +08:00 [INF] Hosting environment: Development
+2026-02-04 17:25:32.696 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-04 17:25:32.814 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-04 17:25:32.974 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:25:32.994 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-04 17:25:33.012 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-04 17:25:33.014 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 18.2837ms
+2026-02-04 17:25:33.014 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:25:33.019 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 205.4691ms
+2026-02-04 17:25:33.033 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-04 17:25:33.038 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16481 application/javascript; charset=utf-8 5.6072ms
+2026-02-04 17:25:33.081 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-04 17:25:33.232 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 151.3866ms
+2026-02-04 17:25:36.184 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task - null null
+2026-02-04 17:25:36.186 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:25:36.190 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(System.String, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-04 17:25:36.200 +08:00 [DBG] 自动清理计时器已启动
+2026-02-04 17:25:36.226 +08:00 [INF] 开始语音转写任务: ，共 1 个文件
+2026-02-04 17:25:36.226 +08:00 [INF] 开始处理文件: [Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4 (索引: 1/1)
+2026-02-04 17:25:37.543 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4
+2026-02-04 17:25:37.546 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).wav
+2026-02-04 17:25:37.552 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-04 17:25:43.748 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-04 17:28:35.702 +08:00 [INF] 识别结果包含 14389 个字符，即将返回识别结果
+2026-02-04 17:28:35.945 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4
+2026-02-04 17:28:35.945 +08:00 [INF] 任务完成: ，总耗时: 179.72s，总体权重进度: 100.00%
+2026-02-04 17:28:35.948 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 179774.6056ms
+2026-02-04 17:28:35.949 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-04 17:28:35.950 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task - 200 null text/event-stream 179782.5355ms
+2026-02-04 17:30:36.173 +08:00 [DBG] 执行定期清理...
+2026-02-04 17:30:36.177 +08:00 [DBG] 定期清理完成
+2026-02-04 17:35:36.144 +08:00 [DBG] 执行定期清理...
+2026-02-04 17:35:36.144 +08:00 [DBG] 定期清理完成
+2026-02-04 17:36:42.495 +08:00 [INF] Application is shutting down...

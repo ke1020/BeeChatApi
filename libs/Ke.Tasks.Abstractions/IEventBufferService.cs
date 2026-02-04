@@ -13,7 +13,7 @@ public interface IEventBufferService : IDisposable
     /// <param name="sseEvent"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    ValueTask AddEventAsync(SseEvent sseEvent, 
+    ValueTask AddEventAsync(SseEventBufferData sseEvent, 
         CancellationToken cancellationToken = default);
     /// <summary>
     /// 获取从指定事件 ID 之后的事件
@@ -21,7 +21,7 @@ public interface IEventBufferService : IDisposable
     /// <param name="lastEventId"></param>
     /// <param name="maxCount"></param>
     /// <returns></returns>
-    Task<IEnumerable<SseEvent>> GetEventsSinceAsync(string? lastEventId, 
+    Task<IEnumerable<SseEventBufferData>> GetEventsSinceAsync(string? lastEventId, 
         CancellationToken cancellationToken = default);
     /// <summary>
     /// 获取事件流（长连接模式）
@@ -29,7 +29,7 @@ public interface IEventBufferService : IDisposable
     /// <param name="lastEventId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    IAsyncEnumerable<SseEvent> GetEventStreamAsync(string? lastEventId = null,
+    IAsyncEnumerable<SseEventBufferData> GetEventStreamAsync(string? lastEventId = null,
         CancellationToken cancellationToken = default);
     /// <summary>
     /// 添加客户端
