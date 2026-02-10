@@ -6,6 +6,8 @@ namespace Ke.Tasks.Abstractions;
 
 public interface ITaskProcessor
 {
+    event EventHandler<TaskCompletedEventArgs> TaskCompleted;
+    event EventHandler<TaskItemCompletedEventArgs> TaskItemCompleted;
     /// <summary>
     /// 处理任务
     /// </summary>

@@ -11,9 +11,11 @@
   <ItemGroup>
     <PackageReference Include="Volo.Abp.Mapperly" Version="$(AbpVersion)" />
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="$(AbpVersion)" />
-    <!--引入存储模块-->
+    <!-- 引入存储模块 -->
     <ProjectReference
       Include="C:\Users\ke\dev\proj\abp\Basic\src\Storage\Ke.Storage\Ke.Storage.csproj" />
+    <!-- 引入 SSE 任务模块 -->
+    <ProjectReference Include="..\..\libs\Ke.Tasks.Abstractions\Ke.Tasks.Abstractions.csproj" />
     <ProjectReference
       Include="..\Ke.Chat.Application.Contracts\Ke.Chat.Application.Contracts.csproj" />
     <ProjectReference Include="..\Ke.Chat.Domain\Ke.Chat.Domain.csproj" />

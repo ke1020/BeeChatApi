@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Ke.Chat.Chats;
 
 namespace Ke.Chat.EntityFrameworkCore;
 
@@ -14,9 +15,9 @@ public class ChatEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<ChatDbContext>(options =>
         {
-                /* Add custom repositories here. Example:
-                 * options.AddRepository<Question, EfCoreQuestionRepository>();
-                 */
+            options.AddRepository<ChatSession, ChatSessionRepository>();
+            options.AddRepository<ChatMessage, ChatMessageRepository>();
+            options.AddRepository<MessageFragment, MessageFragmentRepository>();
         });
     }
 }

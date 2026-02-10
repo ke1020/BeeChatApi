@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading.Channels;
 using Ke.Tasks.Abstractions;
 using Ke.Tasks.Models;
@@ -35,28 +36,48 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
             SingleReader = true
         });
 
-        int requestMessageId = request.ParentId ?? 1;
-
-        // 消息对象
-        var chatMessage = new ChatMessage
-        {
-            Id = Guid.CreateVersion7(),
-            ParentId = requestMessageId,
-            MessageId = requestMessageId + 1,
-            Role = requestMessageId % 2 == 0 ? "ASSISTANT" : "USER",
-            ThinkingEnabled = request.ThinkingEnabled,
-            Fragments =
-            [
-                new { Type="REQUEST", Content = request.Prompt }
-            ]
-        };
+        // session 管理
+        var sessionService = _serviceProvider.GetRequiredService<IChatSessionAppService>();
+        // 创建一个新的会话
+        var session = new CreateChatSessionDto(Guid.CreateVersion7(), request.Prompt);
+        int requestMessageId = (request.ParentId ?? 0) + 1;
 
         // 连接就绪，分配消息 ID
-        await channel.Writer.WriteReadyAsync(chatMessage.ParentId, chatMessage.MessageId, cancellationToken: cancellationToken);
+        await channel.Writer.WriteReadyAsync(request.ParentId, requestMessageId, cancellationToken: cancellationToken);
 
         // 恢复会话
         await ResumeAsync(request, channel.Writer, cancellationToken);
 
+        // 消息对象
+        var chatRequestMessage = new ChatMessageInputDto
+        {
+            ParentId = request.ParentId,
+            MessageId = requestMessageId,
+            Role = "USER",
+            ThinkingEnabled = request.ThinkingEnabled,
+            Files = request.RefFileIds,
+            Fragments =
+            [
+                new ChatMessageFragment{ Type="REQUEST", Content = request.Prompt }
+            ]
+        };
+        // 像会话添加首条消息
+        session.Messages.Add(chatRequestMessage);
+        // 保存会话
+        await sessionService.CreateAsync(session, cancellationToken);
+
+        var chatResponseMessage = new ChatMessageInputDto
+        {
+            ParentId = chatRequestMessage.MessageId,
+            MessageId = chatRequestMessage.MessageId + 1,
+            Role = "ASSISTANT",
+            Fragments =
+            [
+                new ChatMessageFragment { Type = "THINK" },
+                new ChatMessageFragment { Type = "RESPONSE" }
+            ]
+        };
+        List<TaskItem> tasks = [];
         // await FirstMessageAsync(request, channel.Writer, responseMessageId, cancellationToken);
 
         if (request.TaskType is not null)
@@ -79,18 +100,41 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
                         return;
                     }
 
+                    var taskInfo = new TaskInfo
+                    {
+                        InputFiles = request.RefFileIds!,
+                        OutputFiles = []
+                    };
+
                     // 创建任务处理器
                     var taskProcessor = processFactory.Create(taskType);
 
-                    // 处理任务
-                    await taskProcessor.ProcessAsync(new TaskInfo
+                    taskProcessor.TaskItemCompleted += async (s, e) =>
                     {
-                        Files = request.RefFileIds!
-                    }, channel.Writer, cancellationToken);
+                        tasks.Add(e.Task);
+                    };
+
+                    taskProcessor.TaskCompleted += async (s, e) =>
+                    {
+                        // taskInfo
+                    };
+
+                    // 处理任务
+                    await taskProcessor.ProcessAsync(taskInfo, channel.Writer, cancellationToken);
+
+                    // 任务执行结果
+                    chatResponseMessage.Fragments[0].Tasks = tasks;
+                    // 最终响应信息
+                    chatResponseMessage.Fragments[1].Content = JsonSerializer.Serialize(new
+                    {
+                        result = "任务处理完成。处理结果保存在以下目录：",
+                    });
+                    // 增加消息
+                    await sessionService.AddMessageAsync(session.SessionId, chatResponseMessage, cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, ex.Message);
+                    _logger.LogError(ex, "异常消息: {Message}", ex.Message);
                     await channel.Writer.WriteAsync(new TaskErrorEvent("任务异常"), cancellationToken);
                 }
                 finally
@@ -118,14 +162,14 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
         ChannelWriter<SseEvent> channelWriter,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(request.ClientStreamId))
+        if (string.IsNullOrEmpty(request.LastEventId))
         {
             return;
         }
 
         using (_eventBuffer)
         {
-            var events = await _eventBuffer.GetEventsSinceAsync(request.ClientStreamId, cancellationToken);
+            var events = await _eventBuffer.GetEventsSinceAsync(request.LastEventId, cancellationToken);
             var lastEvent = events.LastOrDefault();
             //if(lastEvent.Equals)
         }

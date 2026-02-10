@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-<PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
     <ProjectReference Include="..\Ke.Chat.Domain\Ke.Chat.Domain.csproj" />
   </ItemGroup>
 

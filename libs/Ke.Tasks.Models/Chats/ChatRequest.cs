@@ -26,9 +26,9 @@ public class ChatRequest
     /// </summary>
     public string[]? RefFileIds { get; set; }
     /// <summary>
-    /// 客户端流 ID
+    /// 最后一个事件 ID
     /// </summary>
-    public string? ClientStreamId { get; set; }
+    public string? LastEventId { get; set; }
     /// <summary>
     /// 是否启用思考
     /// </summary>

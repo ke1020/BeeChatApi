@@ -30,10 +30,10 @@ public sealed class SseEventBufferData(string id, string eventType) : SseEvent(e
 /// <param name="RequestMessageId"></param>
 /// <param name="ResponseMessageId"></param>
 /// <param name="eventType"></param>
-public sealed class ReadyEvent(int requestMessageId, int responseMessageId, string eventType = "ready")
+public sealed class ReadyEvent(int? requestMessageId, int responseMessageId, string eventType = "ready")
     : SseEvent(eventType)
 {
-    public int RequestMessageId { get; } = requestMessageId;
+    public int? RequestMessageId { get; } = requestMessageId;
     public int ResponseMessageId { get; } = responseMessageId;
 }
 

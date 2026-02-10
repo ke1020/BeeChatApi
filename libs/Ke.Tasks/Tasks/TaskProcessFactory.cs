@@ -24,7 +24,7 @@ public class TaskProcessFactory : ITaskProcessFactory
         _providerTypes = new Dictionary<TaskType, Type>()
             {
                 { TaskType.ASR, typeof(AsrTaskProcessor) },
-                { TaskType.TTS, typeof(TtsTaskProcessor) },
+                //{ TaskType.TTS, typeof(TtsTaskProcessor) },
             };
     }
 

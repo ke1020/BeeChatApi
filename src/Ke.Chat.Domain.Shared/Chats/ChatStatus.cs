@@ -1,7 +1,8 @@
-namespace Ke.Tasks.Models;
+namespace Ke.Chat.Chats;
 
-public enum TaskStatus
+public enum ChatStatus
 {
+    None,
     Pending,
     Processing,
     Completed,

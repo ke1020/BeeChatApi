@@ -10,5 +10,5 @@ public class ChatResponse
 public class HistoryMessage
 {
     public ChatRequest ChatSession { get; set; }
-    public List<ChatMessage> Messages { get; set; } = [];
+    public List<ChatMessageInputDto> Messages { get; set; } = [];
 }

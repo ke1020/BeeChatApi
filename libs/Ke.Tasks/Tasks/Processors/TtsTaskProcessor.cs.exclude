@@ -8,8 +8,14 @@ namespace Ke.Tasks.Processors;
 
 public class TtsTaskProcessor : ITaskProcessor
 {
+
+    public event EventHandler<TaskCompletedEventArgs> TaskCompleted;
+    public event EventHandler<TaskItemCompletedEventArgs> TaskItemCompleted;
+
     public Task ProcessAsync(TaskInfo task, ChannelWriter<SseEvent> channelWriter, CancellationToken cancellationToken)
     {
+        //TaskCompleted?.Invoke(this, new TaskCompletedEventArgs(task, Models.TaskStatus.Completed));
+        //TaskItemCompleted?.Invoke(this, new TaskItemCompletedEventArgs(new Models.TaskStatus(), new TaskItem()));
         throw new NotImplementedException();
     }
 }

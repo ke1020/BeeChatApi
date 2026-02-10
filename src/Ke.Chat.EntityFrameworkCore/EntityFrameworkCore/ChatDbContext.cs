@@ -1,15 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Ke.Chat.Chats;
 
 namespace Ke.Chat.EntityFrameworkCore;
 
 [ConnectionStringName(ChatDbProperties.ConnectionStringName)]
 public class ChatDbContext : AbpDbContext<ChatDbContext>, IChatDbContext
 {
-    /* Add DbSet for each Aggregate Root here. Example:
-     * public DbSet<Question> Questions { get; set; }
-     */
+    public DbSet<ChatSession> ChatSessions { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
+    public DbSet<MessageFragment> MessageFragments { get; set; }
 
     public ChatDbContext(DbContextOptions<ChatDbContext> options)
         : base(options)

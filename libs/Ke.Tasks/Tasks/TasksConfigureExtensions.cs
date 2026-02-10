@@ -15,7 +15,7 @@ public static class TasksConfigureExtensions
         services.AddSingleton<IChat, ChatCompletion>();
 
         services.AddSingleton<AsrTaskProcessor>();
-        services.AddSingleton<TtsTaskProcessor>();
+        //services.AddSingleton<TtsTaskProcessor>();
         return services;
     }
 }

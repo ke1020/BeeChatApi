@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using System.Threading.Channels;
 using FFMpegCore;
 using Ke.Ai.Sherpa.Abstractions;
@@ -37,9 +36,13 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
     /// </summary>
     private const int ProgressUpdateIntervalMs = 2000;
 
-    public async Task ProcessAsync(TaskInfo task, ChannelWriter<SseEvent> channelWriter, CancellationToken cancellationToken)
+    public event EventHandler<TaskCompletedEventArgs>? TaskCompleted;
+    public event EventHandler<TaskItemCompletedEventArgs>? TaskItemCompleted;
+
+    public async Task ProcessAsync(TaskInfo task, ChannelWriter<SseEvent> channelWriter,
+        CancellationToken cancellationToken)
     {
-        var files = task.Files ?? [];
+        var files = task.InputFiles ?? [];
         // 任务开始
         _logger.LogInformation("开始语音转写任务: {TaskName}，共 {FileCount} 个文件", task.TaskName, files.Length);
 
@@ -72,14 +75,16 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
         // 处理每个文件
         for (int i = 0; i < files.Length; i++)
         {
-            var filePath = files[i];
-            filePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
-            var fileName = Path.GetFileName(filePath);
-            var fileId = Guid.NewGuid().ToString("N");
+            //var filePath = files[i];
+            var filePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
+            var taskItem = new TaskItem
+            {
+                FileName = Path.GetFileName(filePath),
+            };
 
             // 开始处理文件
             _logger.LogInformation("开始处理文件: {FileName} (索引: {Index}/{Total})",
-                fileName, i + 1, files.Length)
+                taskItem.FileName, i + 1, files.Length)
                 ;
 
             // 步骤1: 转码
@@ -106,6 +111,11 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
             }, cancellationToken);
 
             _logger.LogInformation("文件识别完成: {FileName}", filePath);
+
+            // 任务完成
+            taskItem.EndTime = DateTime.UtcNow;
+            taskItem.Status = TaskStatus.Completed;
+            TaskItemCompleted?.Invoke(this, new TaskItemCompletedEventArgs(TaskStatus.Completed, taskItem));
         }
 
         // 任务完成
@@ -115,6 +125,8 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
         _logger.LogInformation("任务完成: {TaskName}，总耗时: {Time:F2}s，总体权重进度: {WeightProgress:F2}%",
             task.TaskName, (task.EndTime - task.StartTime)?.TotalSeconds ?? 0,
             100);
+
+        TaskCompleted?.Invoke(this, new TaskCompletedEventArgs(task, TaskStatus.Completed));
     }
 
     /// <summary>

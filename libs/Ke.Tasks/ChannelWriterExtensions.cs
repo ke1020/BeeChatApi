@@ -15,7 +15,7 @@ public static class ChannelWriterExtensions
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public static ValueTask WriteReadyAsync(this ChannelWriter<SseEvent> writer,
-        int requestMessageId,
+        int? requestMessageId,
         int responseMessageId,
         string eventType = "ready",
         CancellationToken cancellationToken = default)
