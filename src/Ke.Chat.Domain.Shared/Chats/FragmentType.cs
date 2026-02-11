@@ -7,3 +7,13 @@ public enum FragmentType
     THINK,
     RESPONSE
 }
+
+/// <summary>
+/// 片段内容类型
+/// </summary>
+public enum FragmentContentType
+{
+    None,
+    Text,
+    Task
+}

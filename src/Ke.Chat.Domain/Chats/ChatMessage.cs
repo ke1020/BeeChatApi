@@ -20,10 +20,9 @@ public class ChatMessage : AuditedAggregateRoot<Guid>
     public List<MessageFragment> Fragments { get; set; } = [];
 
     public Guid SessionId { get; set; }
-    public ChatSession Session { get; set; }
+    public ChatSession? Session { get; set; }
 
-
-    public ChatMessage()
+    private ChatMessage()
     {
     }
 

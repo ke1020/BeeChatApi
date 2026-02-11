@@ -35,4 +35,22 @@ public class ChatMessageRepository : EfCoreRepository<ChatDbContext, ChatMessage
         return await dbSet.Where(cm => cm.Status == status).ToListAsync(cancellationToken);
     }
 
+    public async Task<List<MessageFragment>> GetFragmentsByMessageIdAsync(Guid messageId, CancellationToken cancellationToken = default)
+    {
+        var dbContext = await GetDbContextAsync();
+
+        return await dbContext.Set<MessageFragment>()
+            .Where(f => f.ChatMessageId == messageId)
+            .ToListAsync(cancellationToken)
+            ;
+    }
+
+    public async Task AddFragmentAsync(Guid messageId, MessageFragment fragment, CancellationToken cancellationToken = default)
+    {
+        fragment.ChatMessageId = messageId;
+
+        var dbContext = await GetDbContextAsync();
+        await dbContext.Set<MessageFragment>().AddAsync(fragment, cancellationToken);
+    }
+
 }

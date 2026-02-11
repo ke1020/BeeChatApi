@@ -6,19 +6,20 @@ namespace Ke.Chat.Chats;
 public class MessageFragment : Entity<Guid>
 {
     public FragmentType Type { get; set; }
-    public string? Content { get; set; }
+    public FragmentContent? Content { get; private set; }  // 使用值对象
     public Guid ChatMessageId { get; set; }
     public ChatMessage? Message { get; set; }
 
-    public MessageFragment()
-    {
+    private MessageFragment() { } // EF Core
 
+    public MessageFragment(Guid id, FragmentType fragmentType)
+        : base(id)
+    {
+        Type = fragmentType;
     }
 
-    public MessageFragment(Guid id,
-        FragmentType type)
+    public void SetContent(FragmentContent content)
     {
-        Id = id;
-        Type = type;
+        Content = content ?? throw new ArgumentNullException(nameof(content));
     }
 }

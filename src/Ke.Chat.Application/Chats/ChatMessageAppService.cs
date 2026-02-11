@@ -57,15 +57,17 @@ public class ChatSessionAppService(IChatSessionRepository sessionRepository,
 
     private MessageFragment ParseFragment(ChatMessageFragment fm)
     {
-        return new MessageFragment(GuidGenerator.Create(),
-            Enum.TryParse<FragmentType>(fm.Type, out var ft) ? ft : FragmentType.None)
+        var type = Enum.TryParse<FragmentType>(fm.Type, out var ft) ? ft : FragmentType.None;
+        // 根据决定内容类型
+        FragmentContent content = type switch
         {
-            Content = JsonSerializer.Serialize(new MessageFragmentContent
-            {
-                Content = fm.Content,
-                Tasks = fm.Tasks
-            })
+            FragmentType.THINK => new TaskFragmentContent(new TaskInfo()),
+            _ => new TextFragmentContent(string.Empty)
         };
+
+        var fragment = new MessageFragment(GuidGenerator.Create(), type);
+        fragment.SetContent(content);
+        return fragment;
     }
 
     public class MessageFragmentContent

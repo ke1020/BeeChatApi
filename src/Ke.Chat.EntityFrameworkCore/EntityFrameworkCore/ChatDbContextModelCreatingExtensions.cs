@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 using Ke.Chat.Chats;
 using Volo.Abp.EntityFrameworkCore.Modeling;
+using System.Text.Json;
+using System;
 
 namespace Ke.Chat.EntityFrameworkCore;
 
@@ -62,7 +64,61 @@ public static class ChatDbContextModelCreatingExtensions
             b.ConfigureByConvention();
 
             b.Property(e => e.Type).IsRequired();
-            b.Property(e => e.Content);
+            b.Property(e => e.Content)
+                .HasConversion(content => SerializeContent(content),
+                    json => DeserializeContent(json))
+                .HasColumnType("nvarchar(max)")
+                ;
         });
+    }
+
+    private static string? SerializeContent(FragmentContent? content)
+    {
+        if(content == null)
+        {
+            return null;
+        }
+
+        var wrapper = new ContentWrapper
+        {
+            Type = content.Type,
+            Data = content switch
+            {
+                TextFragmentContent text => JsonSerializer.Serialize(new { text.Text }),
+                TaskFragmentContent task => JsonSerializer.Serialize(new { task.Task }),
+                _ => throw new NotSupportedException($"Content type {content.GetType().Name} is not supported")
+            }
+        };
+
+        return JsonSerializer.Serialize(wrapper, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+    }
+
+    private static FragmentContent? DeserializeContent(string? json)
+    {
+        if(json == null)
+        {
+            return null;
+        }
+        
+        var wrapper = JsonSerializer.Deserialize<ContentWrapper>(json);
+        if (wrapper == null) return null;
+
+        return wrapper.Type switch
+        {
+            FragmentContentType.Text =>
+                JsonSerializer.Deserialize<TextFragmentContent>(wrapper.Data),
+            FragmentContentType.Task =>
+                JsonSerializer.Deserialize<TaskFragmentContent>(wrapper.Data),
+            _ => throw new NotSupportedException($"Content type {wrapper.Type} is not supported")
+        };
+    }
+
+    private class ContentWrapper
+    {
+        public FragmentContentType Type { get; set; }
+        public string Data { get; set; } = string.Empty;
     }
 }
