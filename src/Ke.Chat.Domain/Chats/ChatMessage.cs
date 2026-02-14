@@ -15,7 +15,7 @@ public class ChatMessage : AuditedAggregateRoot<Guid>
     public bool BanRegenerate { get; set; } = false;
     public ChatStatus Status { get; set; } = ChatStatus.Pending;
     public int AccumulatedTokenUsage { get; set; } = 0;
-    public string[]? Files { get; set; } = [];
+    public List<string>? Files { get; set; }
     public bool SearchEnabled { get; set; } = false;
     public List<MessageFragment> Fragments { get; set; } = [];
 

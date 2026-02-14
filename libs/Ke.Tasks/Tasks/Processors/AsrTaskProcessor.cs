@@ -16,12 +16,9 @@ namespace Ke.Tasks.Processors;
 /// 语音转写任务处理器
 /// </summary>
 /// <param name="logger"></param>
-public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
+public class AsrTaskProcessor(IServiceProvider serviceProvider)
+    : TaskProcessorBase<AsrTaskProcessor>(serviceProvider)
 {
-    /// <summary>
-    /// 日志记录器
-    /// </summary>
-    private readonly ILogger<AsrTaskProcessor> _logger = serviceProvider.GetRequiredService<ILogger<AsrTaskProcessor>>();
     /// <summary>
     /// 语音识别服务配置
     /// </summary>
@@ -36,111 +33,105 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
     /// </summary>
     private const int ProgressUpdateIntervalMs = 2000;
 
-    public event EventHandler<TaskCompletedEventArgs>? TaskCompleted;
-    public event EventHandler<TaskItemCompletedEventArgs>? TaskItemCompleted;
-
-    public async Task ProcessAsync(TaskInfo task, ChannelWriter<SseEvent> channelWriter,
+    public override async Task ProcessAsync(TaskInfo task, ChannelWriter<SseEvent> channelWriter,
         CancellationToken cancellationToken)
     {
-        var files = task.InputFiles ?? [];
         // 任务开始
-        _logger.LogInformation("开始语音转写任务: {TaskName}，共 {FileCount} 个文件", task.TaskName, files.Length);
+        Logger.LogInformation("开始语音转写任务: 任务标识：{TaskId}，共 {FileCount} 个文件",
+            task.Id,
+            string.Join(',', task.InputFiles.Count))
+            ;
 
-        if (files.Length == 0)
+        if (task.InputFiles.Count == 0)
         {
-            _logger.LogWarning("没有需要处理的文件，退出任务");
+            Logger.LogWarning("没有需要处理的文件，退出任务");
             return;
         }
 
-        /*
-        // 创建进度更新定时器
-        using var progressTimer = new PeriodicTimer(TimeSpan.FromMilliseconds(ProgressUpdateIntervalMs));
-        var progressUpdateTask = Task.Run(async () =>
-        {
-            while (await progressTimer.WaitForNextTickAsync(cancellationToken))
-            {
-                try
-                {
-                    var progressEvent = CreateTaskProgressEvent(task);
-                    await channelWriter.WriteAsync(progressEvent, cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogWarning(ex, "发送进度更新失败");
-                }
-            }
-        }, cancellationToken);
-        */
-
         // 处理每个文件
-        for (int i = 0; i < files.Length; i++)
+        for (int i = 0; i < task.InputFiles.Count; i++)
         {
             //var filePath = files[i];
-            var filePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
+            var tempPath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp";
+            var filePath = Directory.GetFiles(tempPath).FirstOrDefault();
+            var fileName = Path.GetFileName(filePath);
+            var fileNameWithoutExt = Path.GetFileNameWithoutExtension(filePath)!;
+            var tempWav = Path.Combine(tempPath, $"{fileNameWithoutExt}.wav");
+            var tempSrt = Path.Combine(tempPath, $"{fileNameWithoutExt}.srt");
             var taskItem = new TaskItem
             {
-                FileName = Path.GetFileName(filePath),
+                InputFile = filePath
             };
 
             // 开始处理文件
-            _logger.LogInformation("开始处理文件: {FileName} (索引: {Index}/{Total})",
-                taskItem.FileName, i + 1, files.Length)
+            Logger.LogInformation("开始处理文件: {FileName} (索引: {Index}/{Total})",
+                fileName, i + 1, task.InputFiles.Count)
                 ;
 
-            // 步骤1: 转码
-            await ProcessTranscodingAsync(filePath, async (progress) =>
+            try
             {
-                //var progressEvent = CreateFileProgressEvent(task, fileProgress, TaskWeightType.Transcode.ToString(), progress);
-                await channelWriter.WriteAsync(new TaskProgressEvent(progress)
+
+                // 步骤1: 转码
+                await ProcessTranscodingAsync(filePath!, tempWav, async (progress) =>
                 {
-                    FileIndex = i
+                    taskItem.Status = TaskStatus.Processing;
+
+                    //var progressEvent = CreateFileProgressEvent(task, fileProgress, TaskWeightType.Transcode.ToString(), progress);
+                    await channelWriter.WriteAsync(new TaskProgressEvent(progress)
+                    {
+                        FileIndex = i
+                    }, cancellationToken);
                 }, cancellationToken);
-            }, cancellationToken);
 
-            // 转码完成
-            _logger.LogInformation("文件转码完成: {FileName}", filePath);
+                // 转码完成
+                Logger.LogInformation("文件转码完成: {FileName}", filePath);
 
-            // 步骤2: 识别
-            await ProcessRecognitionAsync(filePath, async (progress) =>
+                // 步骤2: 识别
+                await ProcessRecognitionAsync(tempWav, tempSrt, async (progress) =>
+                {
+                    //var progressEvent = CreateFileProgressEvent(task, fileProgress, TaskWeightType.ASR.ToString(), progress);
+                    await channelWriter.WriteAsync(new TaskProgressEvent(progress)
+                    {
+                        FileIndex = i
+                    }, cancellationToken);
+                }, cancellationToken);
+
+                Logger.LogInformation("文件识别完成: {FileName}", filePath);
+
+                // 任务完成
+                taskItem.OutputFile = tempSrt;
+                taskItem.Status = TaskStatus.Completed;
+
+                // OnTaskItemCompleted(taskItem);
+            }
+            catch (OperationCanceledException)
             {
-                //var progressEvent = CreateFileProgressEvent(task, fileProgress, TaskWeightType.ASR.ToString(), progress);
-                await channelWriter.WriteAsync(new TaskProgressEvent(progress)
-                {
-                    FileIndex = i
-                }, cancellationToken);
-            }, cancellationToken);
+                taskItem.Status = TaskStatus.Cancelled;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex);
+                taskItem.Status = TaskStatus.Failed;
+            }
 
-            _logger.LogInformation("文件识别完成: {FileName}", filePath);
-
-            // 任务完成
             taskItem.EndTime = DateTime.UtcNow;
-            taskItem.Status = TaskStatus.Completed;
-            TaskItemCompleted?.Invoke(this, new TaskItemCompletedEventArgs(TaskStatus.Completed, taskItem));
+
+            // 将结果添加到子任务列表中
+            task.SubTasks.Add(taskItem);
         }
 
-        // 任务完成
-        task.Status = TaskStatus.Completed;
-        task.EndTime = DateTime.UtcNow;
-        await channelWriter.WriteAsync(new TaskCompletedEvent("任务完成"), cancellationToken);
-        _logger.LogInformation("任务完成: {TaskName}，总耗时: {Time:F2}s，总体权重进度: {WeightProgress:F2}%",
-            task.TaskName, (task.EndTime - task.StartTime)?.TotalSeconds ?? 0,
-            100);
-
-        TaskCompleted?.Invoke(this, new TaskCompletedEventArgs(task, TaskStatus.Completed));
+        OnTaskCompleted(task);
     }
 
     /// <summary>
     /// 带进度报告的文件转码处理
     /// </summary>
     private async Task ProcessTranscodingAsync(
-        string filePath,
+        string inputFile,
+        string outputWavFile,
         Func<double, Task> progressCallback,
         CancellationToken cancellationToken)
     {
-        //fileItem.Status = FileStatus.Transcoding;
-        //fileItem.FilePath = @"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4";
-        var output = GetOutputFilePath(filePath);
-
         DateTime lastProgressTime = DateTime.MinValue;
         double lastProgressValue = 0;
 
@@ -163,16 +154,16 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "发送转码进度失败");
+                    Logger.LogWarning(ex, "发送转码进度失败");
                 }
             }
         }
 
         int samplingRate = 16000;
-        var analysis = FFProbe.Analyse(filePath);
+        var analysis = FFProbe.Analyse(inputFile);
         var progressor = FFMpegArguments
-            .FromFileInput(filePath)
-            .OutputToFile(output, true, opts =>
+            .FromFileInput(inputFile)
+            .OutputToFile(outputWavFile, true, opts =>
             {
                 opts.WithDuration(analysis.Duration);
                 opts.WithCustomArgument($"-ac 1 -ar {samplingRate} -acodec pcm_s16le");
@@ -193,13 +184,12 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
     /// 带进度报告的文件识别处理
     /// </summary>
     private async Task ProcessRecognitionAsync(
-        string filePath,
+        string audioFile,
+        string outputSrtFile,
         Func<double, Task> progressCallback,
         CancellationToken cancellationToken)
     {
         //fileItem.Status = FileStatus.Recognizing;
-        var output = GetOutputFilePath(filePath);
-
         DateTime lastProgressTime = DateTime.MinValue;
         double lastProgressValue = 0;
 
@@ -222,7 +212,7 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "发送识别进度失败");
+                    Logger.LogWarning(ex, "发送识别进度失败");
                 }
             }
         };
@@ -230,7 +220,7 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
         var funAsrNano = _sherpaOptions.FunAsrNano ??
             throw new ArgumentNullException(nameof(FunAsrNanoModel));
 
-        var response = await _asr.RecognizeAsync(new SherpaSpeechRecognizeRequest(output)
+        var response = await _asr.RecognizeAsync(new SherpaSpeechRecognizeRequest(audioFile)
         {
             FunAsrNano = new FunAsrNanoModel(funAsrNano.EncoderAdaptor,
                 funAsrNano.LLM,
@@ -240,10 +230,7 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
             Progress = progress
         }, cancellationToken);
 
-        File.WriteAllText(@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\16k.srt", response.Text);
-
-        // 更新已完成权重
-        //UpdateFileWeightProgress(fileItem, weight);
+        await File.WriteAllTextAsync(outputSrtFile, response.Text, cancellationToken);
     }
 
     /*
@@ -303,11 +290,4 @@ public class AsrTaskProcessor(IServiceProvider serviceProvider) : ITaskProcessor
         };
     }
     */
-
-    private static string GetOutputFilePath(ReadOnlySpan<char> filePath)
-    {
-        var path = Path.GetDirectoryName(filePath);
-        var fileName = Path.GetFileNameWithoutExtension(filePath);
-        return Path.Join(path, string.Concat(fileName, ".wav"));
-    }
 }

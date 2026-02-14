@@ -11,7 +11,7 @@ public class ChatMessageInputDto
     public bool BanRegenerate { get; set; } = false;
     public string Status { get; set; } = "PENDING";
     public int AccumulatedTokenUsage { get; set; } = 0;
-    public string[]? Files { get; set; } = [];
+    public List<string>? Files { get; set; }
     public bool SearchEnabled { get; set; } = false;
     /// <summary>
     /// 片段
@@ -23,5 +23,5 @@ public class ChatMessageFragment
 {
     public string? Type { get; set; }
     public string? Content { get; set; }
-    public List<TaskItem>? Tasks { get; set; }
+    public TaskInfo? Task { get; set; }
 }

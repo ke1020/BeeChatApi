@@ -24,10 +24,12 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     public async IAsyncEnumerable<SseEvent> SendAsync(ChatRequest request,
+        string? lastEventId = null,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(request.Prompt);
 
         // 创建 Channel 用于收集 SSE 事件
         var channel = Channel.CreateUnbounded<SseEvent>(new UnboundedChannelOptions
@@ -46,7 +48,7 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
         await channel.Writer.WriteReadyAsync(request.ParentId, requestMessageId, cancellationToken: cancellationToken);
 
         // 恢复会话
-        await ResumeAsync(request, channel.Writer, cancellationToken);
+        await ResumeAsync(request, channel.Writer, lastEventId, cancellationToken);
 
         // 消息对象
         var chatRequestMessage = new ChatMessageInputDto
@@ -73,11 +75,14 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
             Role = "ASSISTANT",
             Fragments =
             [
-                new ChatMessageFragment { Type = "THINK" },
+                new ChatMessageFragment { Type = "THINK", Task = new TaskInfo
+                {
+                    InputFiles = request.RefFileIds ?? [],
+                    OutputFiles = []
+                } },
                 new ChatMessageFragment { Type = "RESPONSE" }
             ]
         };
-        List<TaskItem> tasks = [];
         // await FirstMessageAsync(request, channel.Writer, responseMessageId, cancellationToken);
 
         if (request.TaskType is not null)
@@ -100,37 +105,35 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
                         return;
                     }
 
-                    var taskInfo = new TaskInfo
-                    {
-                        InputFiles = request.RefFileIds!,
-                        OutputFiles = []
-                    };
+                    var taskInfo = chatResponseMessage.Fragments[0].Task!;
 
                     // 创建任务处理器
                     var taskProcessor = processFactory.Create(taskType);
 
-                    taskProcessor.TaskItemCompleted += async (s, e) =>
-                    {
-                        tasks.Add(e.Task);
-                    };
-
+                    // 任务完成
                     taskProcessor.TaskCompleted += async (s, e) =>
                     {
-                        // taskInfo
+                        taskInfo.Status = Models.TaskStatus.Completed;
+                        taskInfo.EndTime = DateTime.UtcNow;
+                        // await channel.Writer.WriteAsync(new TaskCompletedEvent("任务完成"), cancellationToken);
+                        _logger.LogInformation("任务完成: {TaskId}，总耗时: {Time:F2}s，总体权重进度: {WeightProgress:F2}%",
+                            taskInfo.Id, (taskInfo.EndTime - taskInfo.StartTime)?.TotalSeconds ?? 0,
+                            100);
+
+                        taskInfo.OutputFiles = e.Task.SubTasks?
+                            .Where(x => x.Status == Models.TaskStatus.Completed)
+                            .Select(x => x.OutputFile ?? string.Empty).ToList() ?? []
+                            ;
+
+                        // 最终响应信息
+                        // chatResponseMessage.Fragments[1].Content = "任务处理完成。处理结果保存在以下目录：";
+                        // 增加消息
+                        await sessionService.AddMessageAsync(session.SessionId, chatResponseMessage, cancellationToken);
                     };
 
                     // 处理任务
                     await taskProcessor.ProcessAsync(taskInfo, channel.Writer, cancellationToken);
 
-                    // 任务执行结果
-                    chatResponseMessage.Fragments[0].Tasks = tasks;
-                    // 最终响应信息
-                    chatResponseMessage.Fragments[1].Content = JsonSerializer.Serialize(new
-                    {
-                        result = "任务处理完成。处理结果保存在以下目录：",
-                    });
-                    // 增加消息
-                    await sessionService.AddMessageAsync(session.SessionId, chatResponseMessage, cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -160,16 +163,17 @@ public class ChatCompletion(ILogger<ChatCompletion> logger,
     /// <returns></returns>
     private async Task ResumeAsync(ChatRequest request,
         ChannelWriter<SseEvent> channelWriter,
-        CancellationToken cancellationToken)
+        string? lastEventId = null,
+        CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrEmpty(request.LastEventId))
+        if (string.IsNullOrEmpty(lastEventId))
         {
             return;
         }
 
         using (_eventBuffer)
         {
-            var events = await _eventBuffer.GetEventsSinceAsync(request.LastEventId, cancellationToken);
+            var events = await _eventBuffer.GetEventsSinceAsync(lastEventId, cancellationToken);
             var lastEvent = events.LastOrDefault();
             //if(lastEvent.Equals)
         }

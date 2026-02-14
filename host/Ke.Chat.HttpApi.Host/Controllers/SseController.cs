@@ -1,13 +1,8 @@
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Ke.Tasks.Abstractions;
-using Ke.Tasks.Models;
 using Ke.Tasks.SSE.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -20,7 +15,7 @@ namespace Ke.Chat.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SseController(ILogger<SseController> logger, 
+public class SseController(ILogger<SseController> logger,
     IEventBufferService eventBuffer,
     IChat chat) : AbpController
 {
@@ -35,17 +30,10 @@ public class SseController(ILogger<SseController> logger,
     /// </summary>
     [HttpGet("progress-task")]
     public ServerSentEventsResult<SseEvent> ProgressTaskStream(
-        [FromQuery] string taskName = "处理任务",
+        [FromQuery] Tasks.Models.Chats.ChatRequest inputDto,
         [FromHeader(Name = "Last-Event-ID")] string? lastEventId = null)
     {
-        return TypedResults.ServerSentEvents(
-            _chat.SendAsync(new Tasks.Models.Chats.ChatRequest
-            {
-                Prompt = string.Empty,
-                RefFileIds = [@"C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\FodyWeavers.xml"],
-                TaskType = "asr"
-            }))
-            ;
+        return TypedResults.ServerSentEvents(_chat.SendAsync(inputDto, lastEventId));
     }
 
     /*

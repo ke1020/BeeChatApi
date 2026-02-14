@@ -20927,3 +20927,1532 @@ System.InvalidOperationException: The instance of entity type 'MessageFragment' 
 2026-02-10 22:14:18.826 +08:00 [DBG] 执行定期清理...
 2026-02-10 22:14:18.826 +08:00 [DBG] 定期清理完成
 2026-02-10 22:18:14.975 +08:00 [INF] Application is shutting down...
+2026-02-14 19:25:08.090 +08:00 [INF] Starting web host.
+2026-02-14 19:25:13.128 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 19:25:13.129 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 19:25:13.129 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 19:25:13.129 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 19:25:13.129 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 19:25:13.129 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 19:25:13.129 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 19:25:13.129 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 19:25:13.129 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 19:25:13.129 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 19:25:13.129 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 19:25:13.129 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 19:25:13.129 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 19:25:13.129 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 19:25:13.474 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 19:25:13.550 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 19:25:13.843 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 19:25:13.843 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 19:25:13.843 +08:00 [INF] Hosting environment: Development
+2026-02-14 19:25:13.843 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 19:25:13.965 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 19:25:15.179 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:25:15.196 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:25:15.214 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 19:25:15.217 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 18.2612ms
+2026-02-14 19:25:15.217 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:25:15.225 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 1260.7967ms
+2026-02-14 19:25:15.229 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger - null null
+2026-02-14 19:25:15.236 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger - 301 null null 7.1565ms
+2026-02-14 19:25:15.242 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.html - null null
+2026-02-14 19:25:15.281 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.html - 200 null text/html;charset=utf-8 38.2711ms
+2026-02-14 19:25:15.286 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/ui/abp.js - null null
+2026-02-14 19:25:15.286 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/swagger-ui.css - null null
+2026-02-14 19:25:15.286 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.css - null null
+2026-02-14 19:25:15.290 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.css - 200 152 text/css 4.685ms
+2026-02-14 19:25:15.291 +08:00 [INF] Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'N/A'
+2026-02-14 19:25:15.291 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/ui/abp.js - 200 3264 application/javascript 5.6472ms
+2026-02-14 19:25:15.293 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/swagger-ui-bundle.js - null null
+2026-02-14 19:25:15.293 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/ui/abp.swagger.js - null null
+2026-02-14 19:25:15.296 +08:00 [INF] Sending file. Request path: '/swagger/ui/abp.swagger.js'. Physical path: 'N/A'
+2026-02-14 19:25:15.296 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/ui/abp.swagger.js - 200 6741 application/javascript 3.3691ms
+2026-02-14 19:25:15.296 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/swagger-ui.css - 200 23647 text/css 10.7574ms
+2026-02-14 19:25:15.298 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/swagger-ui-standalone-preset.js - null null
+2026-02-14 19:25:15.301 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/index.js - null null
+2026-02-14 19:25:15.302 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/index.js - 200 null application/javascript;charset=utf-8 0.9832ms
+2026-02-14 19:25:15.306 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/swagger-ui-standalone-preset.js - 200 70860 text/javascript 7.6271ms
+2026-02-14 19:25:15.307 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/swagger-ui-bundle.js - 200 417980 text/javascript 14.753ms
+2026-02-14 19:25:15.309 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 19:25:15.328 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 18.9946ms
+2026-02-14 19:25:15.414 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 19:25:15.547 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 132.5446ms
+2026-02-14 19:25:50.570 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task - null null
+2026-02-14 19:25:50.572 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:25:50.581 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:25:50.592 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 19:25:50.612 +08:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-02-14 19:25:50.621 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 40.5785ms
+2026-02-14 19:25:50.621 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:25:50.622 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task - 400 null application/problem+json; charset=utf-8 51.7629ms
+2026-02-14 19:25:50.640 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/favicon.ico - null null
+2026-02-14 19:25:50.641 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/favicon.ico - 404 0 null 1.6042ms
+2026-02-14 19:25:50.642 +08:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:44300/favicon.ico, Response status code: 404
+2026-02-14 19:27:23.382 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a - null null
+2026-02-14 19:27:23.385 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:27:23.386 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:27:23.831 +08:00 [INF] 开始语音转写任务: 任务标识："019c5be7-cc9e-7373-a177-383f5c52998b"，共  个文件
+2026-02-14 19:27:23.831 +08:00 [WRN] 没有需要处理的文件，退出任务
+2026-02-14 19:27:23.867 +08:00 [ERR] 异常消息: Value cannot be null. (Parameter 'task')
+System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Domain\Chats\FragmentContent.cs:line 42
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 63
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 38
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 33
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 139
+2026-02-14 19:27:23.870 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 484.3147ms
+2026-02-14 19:27:23.870 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:27:23.903 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 486
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (3 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":null,"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (222 ms.)
+    {"input":{"sessionId":"019c5be7-cb33-7929-b340-b035d52e56e0","title":"a","creationTime":"2026-02-14T11:27:23.4434937Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+  - Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync (3 ms.)
+    {"sessionId":"019c5be7-cb33-7929-b340-b035d52e56e0","input":{"messageId":2,"parentId":1,"model":null,"role":"ASSISTANT","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"THINK","content":"{\u0022TaskInfo\u0022:{\u0022Id\u0022:\u0022019c5be7-cc9e-7373-a177-383f5c52998b\u0022,\u0022TaskType\u0022:0,\u0022Status\u0022:2,\u0022StartTime\u0022:\u00222026-02-14T11:27:23.8068546Z\u0022,\u0022EndTime\u0022:\u00222026-02-14T11:27:23.8316372Z\u0022,\u0022InputFiles\u0022:[],\u0022OutputFiles\u0022:[],\u0022Parameters\u0022:{},\u0022ErrorMessage\u0022:null,\u0022SubTasks\u0022:[]},\u0022Tasks\u0022:[]}","task":null},{"type":"RESPONSE","content":"\u4EFB\u52A1\u5904\u7406\u5B8C\u6210\u3002\u5904\u7406\u7ED3\u679C\u4FDD\u5B58\u5728\u4EE5\u4E0B\u76EE\u5F55\uFF1A","task":null}]},"cancellationToken":null}
+- Exceptions:
+  - Value cannot be null. (Parameter 'task')
+    System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Domain\Chats\FragmentContent.cs:line 42
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 63
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 38
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 33
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 139
+
+2026-02-14 19:27:23.903 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a - 200 null text/event-stream 521.6347ms
+2026-02-14 19:29:28.325 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a - null null
+2026-02-14 19:29:28.326 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:29:28.327 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:29:28.355 +08:00 [INF] 开始语音转写任务: 任务标识："019c5be9-b323-7a65-b6c3-51ad5cdfa485"，共  个文件
+2026-02-14 19:29:28.355 +08:00 [WRN] 没有需要处理的文件，退出任务
+2026-02-14 19:29:28.380 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 52.6561ms
+2026-02-14 19:29:28.380 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:29:28.380 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a - 200 null text/event-stream 55.3537ms
+2026-02-14 19:30:14.104 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:30:14.106 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:30:14.108 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:30:14.134 +08:00 [INF] 开始语音转写任务: 任务标识："019c5bea-65f6-7be5-a938-3a65c17e1d8d"，共 a 个文件
+2026-02-14 19:30:14.134 +08:00 [INF] 开始处理文件: [Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4 (索引: 1/1)
+2026-02-14 19:30:15.517 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4
+2026-02-14 19:30:15.519 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).wav
+2026-02-14 19:30:15.522 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 19:30:21.540 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 19:30:50.600 +08:00 [DBG] 执行定期清理...
+2026-02-14 19:30:50.605 +08:00 [DBG] 定期清理完成
+2026-02-14 19:33:09.359 +08:00 [INF] 识别结果包含 14389 个字符，即将返回识别结果
+2026-02-14 19:33:09.530 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4
+2026-02-14 19:33:09.531 +08:00 [INF] 任务完成: "019c5bea-65f6-7be5-a938-3a65c17e1d8d"，总耗时: 175.40s，总体权重进度: 100.00%
+2026-02-14 19:33:09.535 +08:00 [ERR] 异常消息: Value cannot be null. (Parameter 'task')
+System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 63
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 38
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 33
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 139
+2026-02-14 19:33:09.535 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 175427.2682ms
+2026-02-14 19:33:09.535 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:33:09.536 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 175430
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (0 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":["a"],"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (5 ms.)
+    {"input":{"sessionId":"019c5bea-65df-741e-9bcf-2e18e4f2a019","title":"a","creationTime":"2026-02-14T11:30:14.1118738Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":["a"],"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+  - Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync (1 ms.)
+    {"sessionId":"019c5bea-65df-741e-9bcf-2e18e4f2a019","input":{"messageId":2,"parentId":1,"model":null,"role":"ASSISTANT","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"THINK","content":"{\u0022TaskInfo\u0022:{\u0022Id\u0022:\u0022019c5bea-65f6-7be5-a938-3a65c17e1d8d\u0022,\u0022TaskType\u0022:0,\u0022Status\u0022:2,\u0022StartTime\u0022:\u00222026-02-14T11:30:14.1345114Z\u0022,\u0022EndTime\u0022:\u00222026-02-14T11:33:09.5317248Z\u0022,\u0022InputFiles\u0022:[\u0022a\u0022],\u0022OutputFiles\u0022:[],\u0022Parameters\u0022:{},\u0022ErrorMessage\u0022:null,\u0022SubTasks\u0022:[]},\u0022Tasks\u0022:[{\u0022Id\u0022:\u0022019c5bea-65f6-790d-9c7d-d40afed3c531\u0022,\u0022InputFile\u0022:null,\u0022OutputFile\u0022:null,\u0022Status\u0022:2,\u0022StartTime\u0022:\u00222026-02-14T11:30:14.1347894Z\u0022,\u0022EndTime\u0022:\u00222026-02-14T11:33:09.5306628Z\u0022,\u0022ErrorMessage\u0022:null}]}","task":null},{"type":"RESPONSE","content":"\u4EFB\u52A1\u5904\u7406\u5B8C\u6210\u3002\u5904\u7406\u7ED3\u679C\u4FDD\u5B58\u5728\u4EE5\u4E0B\u76EE\u5F55\uFF1A","task":null}]},"cancellationToken":null}
+- Exceptions:
+  - Value cannot be null. (Parameter 'task')
+    System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 63
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 38
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 33
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 139
+
+2026-02-14 19:33:09.536 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 175432.0488ms
+2026-02-14 19:35:50.597 +08:00 [DBG] 执行定期清理...
+2026-02-14 19:35:50.597 +08:00 [DBG] 定期清理完成
+2026-02-14 19:40:50.594 +08:00 [DBG] 执行定期清理...
+2026-02-14 19:40:50.594 +08:00 [DBG] 定期清理完成
+2026-02-14 19:42:17.192 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:42:17.193 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:17.194 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:42:17.201 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 6.8275ms
+2026-02-14 19:42:17.201 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:17.205 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 8
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (0 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":["a"],"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (2 ms.)
+    {"input":{"sessionId":"019c5bf5-6e6d-71e1-a245-805d2b7f5016","title":"a","creationTime":"2026-02-14T11:42:17.1972212Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":["a"],"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+- Exceptions:
+  - No string associated with token. The format of the file 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\bin\Debug\net10.0\Ke.Chat.Application.dll' is invalid.
+    System.BadImageFormatException: No string associated with token. The format of the file 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\bin\Debug\net10.0\Ke.Chat.Application.dll' is invalid.
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input)
+   at Ke.Chat.Chats.ChatSessionAppService.<>c__DisplayClass3_0.<CreateAsync>b__0(ChatMessageInputDto msg)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.CreateAsync(CreateChatSessionDto input, CancellationToken cancellationToken)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.SendAsync(ChatRequest request, String lastEventId, CancellationToken cancellationToken)+MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 69
+   at Ke.Tasks.ChatCompletion.SendAsync(ChatRequest request, String lastEventId, CancellationToken cancellationToken)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+MoveNext()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+MoveNext()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Net.ServerSentEvents.SseFormatter.WriteAsyncCore[T](IAsyncEnumerable`1 source, Stream destination, Action`2 itemFormatter, CancellationToken cancellationToken)
+   at System.Net.ServerSentEvents.SseFormatter.WriteAsyncCore[T](IAsyncEnumerable`1 source, Stream destination, Action`2 itemFormatter, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.ExecuteAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Volo.Abp.AspNetCore.Serilog.AbpSerilogMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.InterfaceMiddlewareBinder.<>c__DisplayClass2_0.<<CreateMiddleware>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Volo.Abp.AspNetCore.Auditing.AbpAuditingMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+
+2026-02-14 19:42:17.208 +08:00 [ERR] An unhandled exception has occurred while executing the request.
+System.BadImageFormatException: No string associated with token. The format of the file 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\bin\Debug\net10.0\Ke.Chat.Application.dll' is invalid.
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input)
+   at Ke.Chat.Chats.ChatSessionAppService.<>c__DisplayClass3_0.<CreateAsync>b__0(ChatMessageInputDto msg)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.CreateAsync(CreateChatSessionDto input, CancellationToken cancellationToken)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.SendAsync(ChatRequest request, String lastEventId, CancellationToken cancellationToken)+MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 69
+   at Ke.Tasks.ChatCompletion.SendAsync(ChatRequest request, String lastEventId, CancellationToken cancellationToken)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+MoveNext()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+MoveNext()
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.WrapEvents(IAsyncEnumerable`1 events, String eventType)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+   at System.Net.ServerSentEvents.SseFormatter.WriteAsyncCore[T](IAsyncEnumerable`1 source, Stream destination, Action`2 itemFormatter, CancellationToken cancellationToken)
+   at System.Net.ServerSentEvents.SseFormatter.WriteAsyncCore[T](IAsyncEnumerable`1 source, Stream destination, Action`2 itemFormatter, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1.ExecuteAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Volo.Abp.AspNetCore.Serilog.AbpSerilogMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.InterfaceMiddlewareBinder.<>c__DisplayClass2_0.<<CreateMiddleware>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Volo.Abp.AspNetCore.Auditing.AbpAuditingMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Volo.Abp.AspNetCore.Auditing.AbpAuditingMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.InterfaceMiddlewareBinder.<>c__DisplayClass2_0.<<CreateMiddleware>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Localization.RequestLocalizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RequestLocalization.AbpRequestLocalizationMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.InterfaceMiddlewareBinder.<>c__DisplayClass2_0.<<CreateMiddleware>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Volo.Abp.AspNetCore.Tracing.AbpCorrelationIdMiddleware.InvokeAsync(HttpContext context, RequestDelegate next)
+   at Microsoft.AspNetCore.Builder.UseMiddlewareExtensions.InterfaceMiddlewareBinder.<>c__DisplayClass2_0.<<CreateMiddleware>b__0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-02-14 19:42:17.225 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 500 null text/html; charset=utf-8 32.113ms
+2026-02-14 19:42:17.229 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 19:42:17.229 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 0.4003ms
+2026-02-14 19:42:20.787 +08:00 [INF] Application is shutting down...
+2026-02-14 19:42:30.382 +08:00 [INF] Starting web host.
+2026-02-14 19:42:30.954 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 19:42:30.955 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 19:42:30.955 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 19:42:30.955 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 19:42:30.955 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 19:42:30.955 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 19:42:30.955 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 19:42:30.955 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 19:42:30.955 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 19:42:30.955 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 19:42:30.955 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 19:42:30.955 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 19:42:30.955 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 19:42:30.955 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 19:42:31.138 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 19:42:31.207 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 19:42:31.351 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 19:42:31.351 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 19:42:31.351 +08:00 [INF] Hosting environment: Development
+2026-02-14 19:42:31.351 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 19:42:31.458 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 19:42:31.617 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:31.635 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:42:31.657 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 19:42:31.659 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 21.3917ms
+2026-02-14 19:42:31.659 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:31.664 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 206.2219ms
+2026-02-14 19:42:31.678 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 19:42:31.683 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 5.8877ms
+2026-02-14 19:42:31.791 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 19:42:31.938 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 146.6486ms
+2026-02-14 19:42:34.952 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:42:34.956 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:34.963 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:42:34.972 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 19:42:36.255 +08:00 [INF] 开始语音转写任务: 任务标识："019c5bf5-b8d1-723f-b6ee-5f72b915c716"，共 a 个文件
+2026-02-14 19:42:36.256 +08:00 [INF] 开始处理文件: [Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4 (索引: 1/1)
+2026-02-14 19:42:36.258 +08:00 [ERR] 异常消息: No file found at 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4'
+FFMpegCore.Exceptions.FFMpegException: No file found at 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\[Milan Jovanović] Why I'm Finally Trying Wolverine (and How It Compares) (gvl_6V2Oc6s).mp4'
+   at FFMpegCore.FFProbe.ThrowIfInputFileDoesNotExist(String filePath)
+   at FFMpegCore.FFProbe.Analyse(String filePath, FFOptions ffOptions, String customArguments)
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessTranscodingAsync(String filePath, Func`2 progressCallback, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\Tasks\Processors\AsrTaskProcessor.cs:line 166
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessAsync(TaskInfo task, ChannelWriter`1 channelWriter, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\Tasks\Processors\AsrTaskProcessor.cs:line 85
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 125
+2026-02-14 19:42:36.262 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 1298.5065ms
+2026-02-14 19:42:36.262 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:42:36.263 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 1311.0036ms
+2026-02-14 19:44:32.593 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:44:32.594 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:44:32.596 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:44:32.642 +08:00 [INF] 开始语音转写任务: 任务标识："019c5bf7-7f80-7156-b6a1-b77718941454"，共 a 个文件
+2026-02-14 19:44:32.643 +08:00 [INF] 开始处理文件: 你在C#中正确地重新抛出异常了吗？.NET技巧2.mp4 (索引: 1/1)
+2026-02-14 19:44:32.896 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\你在C#中正确地重新抛出异常了吗？.NET技巧2.mp4
+2026-02-14 19:44:32.898 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\你在C#中正确地重新抛出异常了吗？.NET技巧2.wav
+2026-02-14 19:44:32.901 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 19:44:38.266 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 19:44:53.372 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 19:44:53.504 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\你在C#中正确地重新抛出异常了吗？.NET技巧2.mp4
+2026-02-14 19:44:53.506 +08:00 [INF] 任务完成: "019c5bf7-7f80-7156-b6a1-b77718941454"，总耗时: 20.87s，总体权重进度: 100.00%
+2026-02-14 19:44:53.515 +08:00 [ERR] 异常消息: Value cannot be null. (Parameter 'task')
+System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Domain\Chats\FragmentContent.cs:line 42
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 67
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 40
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 35
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext()
+2026-02-14 19:44:53.516 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 20919.9695ms
+2026-02-14 19:44:53.516 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:44:53.529 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 20922
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (1 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":["a"],"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (24 ms.)
+    {"input":{"sessionId":"019c5bf7-7f58-7c06-8288-794a3730e9ce","title":"a","creationTime":"2026-02-14T11:44:32.6010022Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":["a"],"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+  - Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync (3 ms.)
+    {"sessionId":"019c5bf7-7f58-7c06-8288-794a3730e9ce","input":{"messageId":2,"parentId":1,"model":null,"role":"ASSISTANT","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"THINK","content":"{\u0022TaskInfo\u0022:{\u0022Id\u0022:\u0022019c5bf7-7f80-7156-b6a1-b77718941454\u0022,\u0022TaskType\u0022:0,\u0022Status\u0022:2,\u0022StartTime\u0022:\u00222026-02-14T11:44:32.6403903Z\u0022,\u0022EndTime\u0022:\u00222026-02-14T11:44:53.5065957Z\u0022,\u0022InputFiles\u0022:[\u0022a\u0022],\u0022OutputFiles\u0022:[],\u0022Parameters\u0022:{},\u0022ErrorMessage\u0022:null,\u0022SubTasks\u0022:[]},\u0022Tasks\u0022:[{\u0022Id\u0022:\u0022019c5bf7-7f83-7c07-a8dd-6272774f09f0\u0022,\u0022InputFile\u0022:null,\u0022OutputFile\u0022:null,\u0022Status\u0022:2,\u0022StartTime\u0022:\u00222026-02-14T11:44:32.6434025Z\u0022,\u0022EndTime\u0022:\u00222026-02-14T11:44:53.5048451Z\u0022,\u0022ErrorMessage\u0022:null}]}","task":null},{"type":"RESPONSE","content":"\u4EFB\u52A1\u5904\u7406\u5B8C\u6210\u3002\u5904\u7406\u7ED3\u679C\u4FDD\u5B58\u5728\u4EE5\u4E0B\u76EE\u5F55\uFF1A","task":null}]},"cancellationToken":null}
+- Exceptions:
+  - Value cannot be null. (Parameter 'task')
+    System.ArgumentNullException: Value cannot be null. (Parameter 'task')
+   at TaskFragmentContent..ctor(TaskInfo task) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Domain\Chats\FragmentContent.cs:line 42
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 67
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 40
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 35
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext()
+
+2026-02-14 19:44:53.529 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 20936.0843ms
+2026-02-14 19:47:34.982 +08:00 [DBG] 执行定期清理...
+2026-02-14 19:47:34.985 +08:00 [DBG] 定期清理完成
+2026-02-14 19:48:01.746 +08:00 [INF] Application is shutting down...
+2026-02-14 19:50:53.002 +08:00 [INF] Starting web host.
+2026-02-14 19:50:53.637 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 19:50:53.638 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 19:50:53.638 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 19:50:53.638 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 19:50:53.638 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 19:50:53.638 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 19:50:53.638 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 19:50:53.638 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 19:50:53.638 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 19:50:53.638 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 19:50:53.638 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 19:50:53.638 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 19:50:53.638 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 19:50:53.638 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 19:50:53.816 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 19:50:53.888 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 19:50:54.038 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 19:50:54.039 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 19:50:54.039 +08:00 [INF] Hosting environment: Development
+2026-02-14 19:50:54.039 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 19:50:54.145 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 19:50:54.300 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:50:54.318 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:50:54.336 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 19:50:54.338 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 18.6565ms
+2026-02-14 19:50:54.338 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:50:54.343 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 198.5423ms
+2026-02-14 19:50:54.357 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 19:50:54.363 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 6.2558ms
+2026-02-14 19:50:54.396 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 19:50:54.577 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 180.5001ms
+2026-02-14 19:51:01.803 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:51:01.807 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:51:01.814 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:51:01.822 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 19:51:03.047 +08:00 [INF] 开始语音转写任务: 任务标识："019c5bfd-7479-72a5-8d55-b7e378657ad8"，共 a 个文件
+2026-02-14 19:51:03.048 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 19:51:03.294 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 19:51:03.297 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 19:51:03.299 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 19:51:08.656 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 19:51:22.989 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 19:51:23.111 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 19:51:23.113 +08:00 [INF] 任务完成: "019c5bfd-7479-72a5-8d55-b7e378657ad8"，总耗时: 20.08s，总体权重进度: 100.00%
+2026-02-14 19:51:23.126 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 21311.4541ms
+2026-02-14 19:51:23.126 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:51:23.140 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 21320
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (2 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":["a"],"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (749 ms.)
+    {"input":{"sessionId":"019c5bfd-7009-75f5-b9e2-2776d72bcace","title":"a","creationTime":"2026-02-14T11:51:01.8975527Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":["a"],"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+  - Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync (7 ms.)
+    {"sessionId":"019c5bfd-7009-75f5-b9e2-2776d72bcace","input":{"messageId":2,"parentId":1,"model":null,"role":"ASSISTANT","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"THINK","content":null,"task":{"id":"019c5bfd-7479-72a5-8d55-b7e378657ad8","taskType":0,"status":2,"startTime":"2026-02-14T11:51:03.0333398Z","endTime":"2026-02-14T11:51:23.1129326Z","inputFiles":["a"],"outputFiles":[],"parameters":{},"errorMessage":null,"subTasks":[]},{"type":"RESPONSE","content":"\u4EFB\u52A1\u5904\u7406\u5B8C\u6210\u3002\u5904\u7406\u7ED3\u679C\u4FDD\u5B58\u5728\u4EE5\u4E0B\u76EE\u5F55\uFF1A","task":null}]},"cancellationToken":null}
+- Exceptions:
+  - No object mapping was found for the specified source and destination types.
+
+Mapping attempted:
+TaskInfo -> TaskInfo
+Ke.Tasks.Models.TaskInfo -> TaskInfo
+
+How to fix:
+Define a mapping class for these types:
+   - Use MapperBase<TSource, TDestination> for one-way mapping.
+   - Use TwoWayMapperBase<TDestination, TSource> for two-way mapping.
+
+For details, see the Mapperly integration document https://abp.io/docs/latest/framework/infrastructure/object-to-object-mapping#mapperly-integration
+    Volo.Abp.AbpException: No object mapping was found for the specified source and destination types.
+
+Mapping attempted:
+TaskInfo -> TaskInfo
+Ke.Tasks.Models.TaskInfo -> TaskInfo
+
+How to fix:
+Define a mapping class for these types:
+   - Use MapperBase<TSource, TDestination> for one-way mapping.
+   - Use TwoWayMapperBase<TDestination, TSource> for two-way mapping.
+
+For details, see the Mapperly integration document https://abp.io/docs/latest/framework/infrastructure/object-to-object-mapping#mapperly-integration
+   at Volo.Abp.Mapperly.MapperlyAutoObjectMappingProvider.Map[TSource,TDestination](Object source)
+   at Volo.Abp.ObjectMapping.DefaultObjectMapper.AutoMap[TSource,TDestination](Object source)
+   at Volo.Abp.ObjectMapping.DefaultObjectMapper.Map[TSource,TDestination](TSource source)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 61
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 40
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 35
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_2.<<SendAsync>b__2>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 134
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.<>c.<ThrowAsync>b__124_1(Object state)
+   at System.Threading.QueueUserWorkItemCallback.Execute()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading.PortableThreadPool.WorkerThread.WorkerThreadStart()
+   at System.Threading.Thread.StartCallback()
+
+2026-02-14 19:51:23.140 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 21337.8037ms
+2026-02-14 19:56:50.260 +08:00 [INF] Starting web host.
+2026-02-14 19:56:50.919 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 19:56:50.920 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 19:56:50.920 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 19:56:50.920 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 19:56:50.920 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 19:56:50.920 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 19:56:50.920 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 19:56:50.920 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 19:56:50.920 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 19:56:50.920 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 19:56:50.920 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 19:56:50.920 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 19:56:50.920 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 19:56:50.920 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 19:56:51.109 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 19:56:51.179 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 19:56:51.322 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 19:56:51.322 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 19:56:51.322 +08:00 [INF] Hosting environment: Development
+2026-02-14 19:56:51.322 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 19:56:51.444 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 19:56:51.600 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:56:51.621 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:56:51.639 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 19:56:51.641 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 17.7001ms
+2026-02-14 19:56:51.641 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:56:51.646 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 203.015ms
+2026-02-14 19:56:51.662 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 19:56:51.668 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 6.6637ms
+2026-02-14 19:56:51.703 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 19:56:51.851 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 148.1905ms
+2026-02-14 19:57:01.970 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 19:57:01.974 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:57:01.983 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 19:57:01.993 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 19:57:03.238 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c02-f378-7c49-8825-d250f07d669a"，共 a 个文件
+2026-02-14 19:57:03.239 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 19:57:03.485 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 19:57:03.487 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 19:57:03.490 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 19:57:08.431 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 19:57:23.527 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 19:57:23.645 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 19:57:23.646 +08:00 [INF] 任务完成: "019c5c02-f378-7c49-8825-d250f07d669a"，总耗时: 20.42s，总体权重进度: 100.00%
+2026-02-14 19:57:23.661 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 21677.9018ms
+2026-02-14 19:57:23.661 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 19:57:23.678 +08:00 [INF] AUDIT LOG: [500: GET    ] /api/sse/progress-task
+- UserName - UserId                 :  - 
+- ClientIpAddress        : ::1
+- ExecutionDuration      : 21688
+- Actions:
+  - Ke.Chat.Controllers.SseController.ProgressTaskStream (2 ms.)
+    {"inputDto":{"sessionId":"00000000-0000-0000-0000-000000000000","parentId":null,"prompt":"a","taskType":"asr","refFileIds":["a"],"thinkingEnabled":false}}
+  - Ke.Chat.Chats.ChatSessionAppService.CreateAsync (766 ms.)
+    {"input":{"sessionId":"019c5c02-eeea-7afc-a13d-f3b8559443bd","title":"a","creationTime":"2026-02-14T11:57:02.0588637Z","messages":[{"messageId":1,"parentId":null,"model":null,"role":"USER","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":["a"],"searchEnabled":false,"fragments":[{"type":"REQUEST","content":"a","task":null}]}]},"cancellationToken":null}
+  - Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync (7 ms.)
+    {"sessionId":"019c5c02-eeea-7afc-a13d-f3b8559443bd","input":{"messageId":2,"parentId":1,"model":null,"role":"ASSISTANT","thinkingEnabled":false,"banEdit":false,"banRegenerate":false,"status":"PENDING","accumulatedTokenUsage":0,"files":null,"searchEnabled":false,"fragments":[{"type":"THINK","content":null,"task":{"id":"019c5c02-f378-7c49-8825-d250f07d669a","taskType":0,"status":2,"startTime":"2026-02-14T11:57:03.2249551Z","endTime":"2026-02-14T11:57:23.64664Z","inputFiles":["a"],"outputFiles":[],"parameters":{},"errorMessage":null,"subTasks":[]},{"type":"RESPONSE","content":"\u4EFB\u52A1\u5904\u7406\u5B8C\u6210\u3002\u5904\u7406\u7ED3\u679C\u4FDD\u5B58\u5728\u4EE5\u4E0B\u76EE\u5F55\uFF1A","task":null}]},"cancellationToken":null}
+- Exceptions:
+  - No object mapping was found for the specified source and destination types.
+
+Mapping attempted:
+TaskInfo -> TaskInfo
+Ke.Tasks.Models.TaskInfo -> Ke.Chat.Chats.TaskInfo
+
+How to fix:
+Define a mapping class for these types:
+   - Use MapperBase<TSource, TDestination> for one-way mapping.
+   - Use TwoWayMapperBase<TDestination, TSource> for two-way mapping.
+
+For details, see the Mapperly integration document https://abp.io/docs/latest/framework/infrastructure/object-to-object-mapping#mapperly-integration
+    Volo.Abp.AbpException: No object mapping was found for the specified source and destination types.
+
+Mapping attempted:
+TaskInfo -> TaskInfo
+Ke.Tasks.Models.TaskInfo -> Ke.Chat.Chats.TaskInfo
+
+How to fix:
+Define a mapping class for these types:
+   - Use MapperBase<TSource, TDestination> for one-way mapping.
+   - Use TwoWayMapperBase<TDestination, TSource> for two-way mapping.
+
+For details, see the Mapperly integration document https://abp.io/docs/latest/framework/infrastructure/object-to-object-mapping#mapperly-integration
+   at Volo.Abp.Mapperly.MapperlyAutoObjectMappingProvider.Map[TSource,TDestination](Object source)
+   at Volo.Abp.ObjectMapping.DefaultObjectMapper.AutoMap[TSource,TDestination](Object source)
+   at Volo.Abp.ObjectMapping.DefaultObjectMapper.Map[TSource,TDestination](TSource source)
+   at Ke.Chat.Chats.ChatSessionAppService.ParseFragment(ChatMessageFragment fm) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 61
+   at System.Linq.Enumerable.ListSelectIterator`2.Fill(ReadOnlySpan`1 source, Span`1 destination, Func`2 func)
+   at System.Linq.Enumerable.ListSelectIterator`2.ToList()
+   at Ke.Chat.Chats.ChatSessionAppService.ParseMessage(Guid sessionId, ChatMessageInputDto input) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 40
+   at Ke.Chat.Chats.ChatSessionAppService.AddMessageAsync(Guid sessionId, ChatMessageInputDto input, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\src\Ke.Chat.Application\Chats\ChatMessageAppService.cs:line 35
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.GlobalFeatures.GlobalFeatureInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Validation.ValidationInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Auditing.AuditingInterceptor.ProceedByLoggingAsync(IAbpMethodInvocation invocation, AbpAuditingOptions options, IAuditingHelper auditingHelper, IAuditLogScope auditLogScope)
+   at Volo.Abp.Auditing.AuditingInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Castle.DynamicProxy.AsyncInterceptorBase.ProceedAsynchronous(IInvocation invocation, IInvocationProceedInfo proceedInfo)
+   at Volo.Abp.Castle.DynamicProxy.CastleAbpMethodInvocationAdapter.ProceedAsync()
+   at Volo.Abp.Uow.UnitOfWorkInterceptor.InterceptAsync(IAbpMethodInvocation invocation)
+   at Volo.Abp.Castle.DynamicProxy.CastleAsyncAbpInterceptorAdapter`1.InterceptAsync(IInvocation invocation, IInvocationProceedInfo proceedInfo, Func`3 proceed)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_2.<<SendAsync>b__2>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 134
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Task.<>c.<ThrowAsync>b__124_1(Object state)
+   at System.Threading.QueueUserWorkItemCallback.Execute()
+   at System.Threading.ThreadPoolWorkQueue.Dispatch()
+   at System.Threading.PortableThreadPool.WorkerThread.WorkerThreadStart()
+   at System.Threading.Thread.StartCallback()
+
+2026-02-14 19:57:23.679 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 21708.7891ms
+2026-02-14 20:00:53.647 +08:00 [INF] Starting web host.
+2026-02-14 20:00:54.307 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 20:00:54.307 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 20:00:54.307 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 20:00:54.307 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 20:00:54.307 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 20:00:54.307 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 20:00:54.307 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 20:00:54.307 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 20:00:54.307 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 20:00:54.307 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 20:00:54.307 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 20:00:54.307 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 20:00:54.307 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 20:00:54.307 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 20:00:54.509 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 20:00:54.578 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 20:00:54.737 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 20:00:54.737 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 20:00:54.737 +08:00 [INF] Hosting environment: Development
+2026-02-14 20:00:54.737 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 20:03:05.462 +08:00 [INF] Application is shutting down...
+2026-02-14 20:03:15.592 +08:00 [INF] Starting web host.
+2026-02-14 20:03:16.215 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 20:03:16.215 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 20:03:16.215 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 20:03:16.215 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 20:03:16.215 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 20:03:16.215 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 20:03:16.215 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 20:03:16.215 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 20:03:16.215 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 20:03:16.215 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 20:03:16.215 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 20:03:16.215 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 20:03:16.215 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 20:03:16.215 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 20:03:16.215 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 20:03:16.215 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 20:03:16.216 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 20:03:16.216 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 20:03:16.216 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 20:03:16.216 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 20:03:16.216 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 20:03:16.216 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 20:03:16.216 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 20:03:16.216 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 20:03:16.216 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 20:03:16.409 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 20:03:16.479 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 20:03:16.617 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 20:03:16.617 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 20:03:16.617 +08:00 [INF] Hosting environment: Development
+2026-02-14 20:03:16.617 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 20:03:16.720 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 20:03:16.874 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:03:16.893 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:03:16.910 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 20:03:16.913 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 17.4806ms
+2026-02-14 20:03:16.913 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:03:16.920 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 199.9358ms
+2026-02-14 20:03:16.936 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 20:03:16.941 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16481 application/javascript; charset=utf-8 5.3423ms
+2026-02-14 20:03:16.977 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 20:03:17.120 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 142.7491ms
+2026-02-14 20:03:20.172 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:03:20.176 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:03:20.185 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:03:20.196 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 20:03:21.289 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c08-b83b-73b7-9f18-5bbc60dce731"，共 a 个文件
+2026-02-14 20:03:21.290 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:03:21.534 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:03:21.536 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 20:03:21.538 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 20:03:27.081 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 20:03:42.565 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 20:03:42.695 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:03:42.697 +08:00 [INF] 任务完成: "019c5c08-b83b-73b7-9f18-5bbc60dce731"，总耗时: 21.42s，总体权重进度: 100.00%
+2026-02-14 20:03:42.759 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 22573.7197ms
+2026-02-14 20:03:42.759 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:03:42.760 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 22588.5843ms
+2026-02-14 20:08:20.207 +08:00 [DBG] 执行定期清理...
+2026-02-14 20:08:20.211 +08:00 [DBG] 定期清理完成
+2026-02-14 20:09:08.516 +08:00 [INF] Application is shutting down...
+2026-02-14 20:09:50.852 +08:00 [INF] Starting web host.
+2026-02-14 20:09:51.477 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 20:09:51.477 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 20:09:51.477 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 20:09:51.477 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 20:09:51.477 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 20:09:51.477 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 20:09:51.477 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 20:09:51.477 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 20:09:51.477 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 20:09:51.477 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 20:09:51.477 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 20:09:51.477 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 20:09:51.477 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 20:09:51.477 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 20:09:51.670 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 20:09:51.749 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 20:09:51.896 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 20:09:51.896 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 20:09:51.896 +08:00 [INF] Hosting environment: Development
+2026-02-14 20:09:51.896 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 20:09:52.013 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 20:09:52.187 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:09:52.206 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:09:52.225 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 20:09:52.227 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 18.6503ms
+2026-02-14 20:09:52.227 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:09:52.234 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 221.4657ms
+2026-02-14 20:09:52.247 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 20:09:52.254 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 6.6139ms
+2026-02-14 20:09:52.293 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 20:09:52.455 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 162.1149ms
+2026-02-14 20:11:44.870 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:11:44.889 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:11:44.896 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:11:44.907 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 20:11:46.192 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c10-6c81-799d-8663-7660b9145a57"，共 a 个文件
+2026-02-14 20:11:46.192 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:11:46.457 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:11:46.462 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 20:11:46.465 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 20:11:52.521 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 20:12:08.536 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 20:12:08.676 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:12:08.678 +08:00 [INF] 任务完成: "019c5c10-6c81-799d-8663-7660b9145a57"，总耗时: 22.50s，总体权重进度: 100.00%
+2026-02-14 20:12:08.743 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 23846.154ms
+2026-02-14 20:12:08.743 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:12:08.744 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 23873.3598ms
+2026-02-14 20:15:33.228 +08:00 [INF] Application is shutting down...
+2026-02-14 20:15:53.486 +08:00 [INF] Starting web host.
+2026-02-14 20:15:54.134 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 20:15:54.135 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 20:15:54.135 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 20:15:54.135 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 20:15:54.135 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 20:15:54.135 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 20:15:54.135 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 20:15:54.135 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 20:15:54.135 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 20:15:54.135 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 20:15:54.135 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 20:15:54.135 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 20:15:54.135 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 20:15:54.135 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 20:15:54.332 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 20:15:54.403 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 20:15:54.562 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 20:15:54.562 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 20:15:54.562 +08:00 [INF] Hosting environment: Development
+2026-02-14 20:15:54.562 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 20:15:54.670 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 20:15:54.842 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:15:54.862 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:15:54.879 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 20:15:54.882 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 17.8175ms
+2026-02-14 20:15:54.882 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:15:54.889 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 218.6964ms
+2026-02-14 20:15:54.904 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 20:15:54.910 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 6.3261ms
+2026-02-14 20:15:54.944 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 20:15:55.102 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 158.103ms
+2026-02-14 20:15:59.528 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:15:59.532 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:15:59.544 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:15:59.553 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 20:16:00.725 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c14-4ec5-7d9f-aa8c-34459cb03fbb"，共 a 个文件
+2026-02-14 20:16:00.727 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:16:00.982 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:16:00.984 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 20:16:00.987 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 20:16:07.389 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 20:16:24.901 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 20:16:25.037 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:16:25.039 +08:00 [INF] 任务完成: "019c5c14-4ec5-7d9f-aa8c-34459cb03fbb"，总耗时: 24.33s，总体权重进度: 100.00%
+2026-02-14 20:16:25.113 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 25568.989ms
+2026-02-14 20:16:25.113 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:16:25.114 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 25586.1241ms
+2026-02-14 20:19:49.631 +08:00 [INF] Application is shutting down...
+2026-02-14 20:39:11.043 +08:00 [INF] Starting web host.
+2026-02-14 20:39:11.688 +08:00 [DBG] Loaded ABP modules:
+2026-02-14 20:39:11.689 +08:00 [DBG] - Ke.Chat.ChatHttpApiHostModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Ke.Chat.ChatApplicationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Ke.Chat.ChatDomainModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.Domain.AbpDddDomainModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Auditing.AbpAuditingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Data.AbpDataModule
+2026-02-14 20:39:11.689 +08:00 [DBG]             - Volo.Abp.ObjectExtending.AbpObjectExtendingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]               - Volo.Abp.Localization.AbpLocalizationAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]               - Volo.Abp.Validation.AbpValidationAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]             - Volo.Abp.Uow.AbpUnitOfWorkModule
+2026-02-14 20:39:11.689 +08:00 [DBG]             - Volo.Abp.EventBus.Abstractions.AbpEventBusAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Json.AbpJsonModule
+2026-02-14 20:39:11.689 +08:00 [DBG]             - Volo.Abp.Json.SystemTextJson.AbpJsonSystemTextJsonModule
+2026-02-14 20:39:11.689 +08:00 [DBG]               - Volo.Abp.Json.AbpJsonAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]               - Volo.Abp.Timing.AbpTimingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]                 - Volo.Abp.Localization.AbpLocalizationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]                   - Volo.Abp.VirtualFileSystem.AbpVirtualFileSystemModule
+2026-02-14 20:39:11.689 +08:00 [DBG]                   - Volo.Abp.Settings.AbpSettingsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]                     - Volo.Abp.Security.AbpSecurityModule
+2026-02-14 20:39:11.689 +08:00 [DBG]                   - Volo.Abp.Threading.AbpThreadingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.MultiTenancy.AbpMultiTenancyModule
+2026-02-14 20:39:11.689 +08:00 [DBG]             - Volo.Abp.MultiTenancy.AbpMultiTenancyAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Auditing.AbpAuditingContractsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.EventBus.AbpEventBusModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Guids.AbpGuidsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.BackgroundWorkers.AbpBackgroundWorkersModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.DistributedLocking.AbpDistributedLockingAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.ObjectMapping.AbpObjectMappingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.ExceptionHandling.AbpExceptionHandlingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Specifications.AbpSpecificationsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Caching.AbpCachingModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Serialization.AbpSerializationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Domain.AbpDddDomainSharedModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Ke.Chat.ChatDomainSharedModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Validation.AbpValidationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Ke.Chat.ChatApplicationContractsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.Application.AbpDddApplicationContractsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.Authorization.AbpAuthorizationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Authorization.AbpAuthorizationAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.Application.AbpDddApplicationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.Http.AbpHttpAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.Features.AbpFeaturesModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.GlobalFeatures.AbpGlobalFeaturesModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.Mapperly.AbpMapperlyModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Ke.Chat.EntityFrameworkCore.ChatEntityFrameworkCoreModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Ke.Chat.ChatHttpApiModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.AspNetCore.AbpAspNetCoreModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.Http.AbpHttpModule
+2026-02-14 20:39:11.689 +08:00 [DBG]           - Volo.Abp.Minify.AbpMinifyModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.AspNetCore.AbpAspNetCoreAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.ApiVersioning.AbpApiVersioningAbstractionsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.AspNetCore.Mvc.AbpAspNetCoreMvcContractsModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.UI.Navigation.AbpUiNavigationModule
+2026-02-14 20:39:11.689 +08:00 [DBG]         - Volo.Abp.UI.AbpUiModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.AspNetCore.Authentication.JwtBearer.AbpAspNetCoreAuthenticationJwtBearerModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.Autofac.AbpAutofacModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.Castle.AbpCastleCoreModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.Caching.StackExchangeRedis.AbpCachingStackExchangeRedisModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.EntityFrameworkCore.SqlServer.AbpEntityFrameworkCoreSqlServerModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.SettingManagement.EntityFrameworkCore.AbpSettingManagementEntityFrameworkCoreModule
+2026-02-14 20:39:11.689 +08:00 [DBG]     - Volo.Abp.SettingManagement.AbpSettingManagementDomainModule
+2026-02-14 20:39:11.689 +08:00 [DBG]       - Volo.Abp.SettingManagement.AbpSettingManagementDomainSharedModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.AspNetCore.Serilog.AbpAspNetCoreSerilogModule
+2026-02-14 20:39:11.689 +08:00 [DBG]   - Volo.Abp.Swashbuckle.AbpSwashbuckleModule
+2026-02-14 20:39:11.882 +08:00 [INF] User profile is available. Using 'C:\Users\ke\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2026-02-14 20:39:11.962 +08:00 [INF] Initialized all ABP modules.
+2026-02-14 20:39:12.116 +08:00 [INF] Now listening on: https://localhost:44300
+2026-02-14 20:39:12.116 +08:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-02-14 20:39:12.116 +08:00 [INF] Hosting environment: Development
+2026-02-14 20:39:12.116 +08:00 [INF] Content root path: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host
+2026-02-14 20:39:12.234 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/ - null null
+2026-02-14 20:39:13.318 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:39:13.335 +08:00 [INF] Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult Index() on controller Ke.Chat.Controllers.HomeController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:39:13.357 +08:00 [INF] Executing RedirectResult, redirecting to /swagger.
+2026-02-14 20:39:13.361 +08:00 [INF] Executed action Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host) in 22.9828ms
+2026-02-14 20:39:13.361 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.HomeController.Index (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:39:13.367 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/ - 302 null null 1132.2285ms
+2026-02-14 20:39:13.381 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - null null
+2026-02-14 20:39:13.386 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/_framework/aspnetcore-browser-refresh.js - 200 16479 application/javascript; charset=utf-8 5.6365ms
+2026-02-14 20:39:13.424 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - null null
+2026-02-14 20:39:13.569 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 144.1944ms
+2026-02-14 20:39:16.592 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:39:16.596 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:39:16.604 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:39:16.616 +08:00 [DBG] 自动清理计时器已启动
+2026-02-14 20:39:17.169 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c29-9da3-7de5-906e-6f3eb97aa9de"，共 1 个文件
+2026-02-14 20:39:17.170 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:39:17.419 +08:00 [ERR] 异常消息: ffmpeg exited with non-zero exit-code (-2 - ffmpeg version 8.0.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-shared --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-liboapv --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-openal --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint --enable-whisper
+  libavutil      60.  8.100 / 60.  8.100
+  libavcodec     62. 11.100 / 62. 11.100
+  libavformat    62.  3.100 / 62.  3.100
+  libavdevice    62.  1.100 / 62.  1.100
+  libavfilter    11.  4.100 / 11.  4.100
+  libswscale      9.  1.100 /  9.  1.100
+  libswresample   6.  1.100 /  6.  1.100
+[aist#0:1/pcm_s16le @ 000001d79ad6b080] Guessed Channel Layout: mono
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.9.100
+  Duration: 00:01:09.83, start: 0.000000, bitrate: 1109 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1080x1920, 717 kb/s, 59.74 fps, 60 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.26.100 libx264
+  Stream #0:1[0x2](und): Audio: pcm_s16le (ipcm / 0x6D637069), 24000 Hz, mono, s16, 384 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+[out#0/wav @ 000001d79af008c0] Error opening output 1\.wav: No such file or directory
+Error opening output file 1\.wav.
+Error opening output files: No such file or directory)
+FFMpegCore.Exceptions.FFMpegException: ffmpeg exited with non-zero exit-code (-2 - ffmpeg version 8.0.1-full_build-www.gyan.dev Copyright (c) 2000-2025 the FFmpeg developers
+  built with gcc 15.2.0 (Rev8, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-shared --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-lcms2 --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-libdvdnav --enable-libdvdread --enable-sdl2 --enable-libaribb24 --enable-libaribcaption --enable-libdav1d --enable-libdavs2 --enable-libopenjpeg --enable-libquirc --enable-libuavs3d --enable-libxevd --enable-libzvbi --enable-liboapv --enable-libqrencode --enable-librav1e --enable-libsvtav1 --enable-libvvenc --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxeve --enable-libxvid --enable-libaom --enable-libjxl --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-libharfbuzz --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-dxva2 --enable-d3d11va --enable-d3d12va --enable-ffnvcodec --enable-libvpl --enable-nvdec --enable-nvenc --enable-vaapi --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-openal --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libcodec2 --enable-libilbc --enable-libgsm --enable-liblc3 --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint --enable-whisper
+  libavutil      60.  8.100 / 60.  8.100
+  libavcodec     62. 11.100 / 62. 11.100
+  libavformat    62.  3.100 / 62.  3.100
+  libavdevice    62.  1.100 / 62.  1.100
+  libavfilter    11.  4.100 / 11.  4.100
+  libswscale      9.  1.100 /  9.  1.100
+  libswresample   6.  1.100 /  6.  1.100
+[aist#0:1/pcm_s16le @ 000001d79ad6b080] Guessed Channel Layout: mono
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf61.9.100
+  Duration: 00:01:09.83, start: 0.000000, bitrate: 1109 kb/s
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 1080x1920, 717 kb/s, 59.74 fps, 60 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      vendor_id       : [0][0][0][0]
+      encoder         : Lavc61.26.100 libx264
+  Stream #0:1[0x2](und): Audio: pcm_s16le (ipcm / 0x6D637069), 24000 Hz, mono, s16, 384 kb/s (default)
+    Metadata:
+      handler_name    : SoundHandler
+      vendor_id       : [0][0][0][0]
+[out#0/wav @ 000001d79af008c0] Error opening output 1\.wav: No such file or directory
+Error opening output file 1\.wav.
+Error opening output files: No such file or directory)
+   at FFMpegCore.FFMpegArgumentProcessor.HandleCompletion(Boolean throwOnError, Int32 exitCode, IReadOnlyList`1 errorData)
+   at FFMpegCore.FFMpegArgumentProcessor.ProcessAsynchronously(Boolean throwOnError, FFOptions ffMpegOptions)
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessTranscodingAsync(String inputFile, String outputWavFile, Func`2 progressCallback, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\Tasks\Processors\AsrTaskProcessor.cs:line 156
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessAsync(TaskInfo task, ChannelWriter`1 channelWriter, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\Tasks\Processors\AsrTaskProcessor.cs:line 72
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext() in C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\libs\Ke.Tasks\ChatCompletion.cs:line 140
+2026-02-14 20:39:17.422 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 818.3243ms
+2026-02-14 20:39:17.423 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:39:17.424 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 832.1633ms
+2026-02-14 20:42:29.077 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:42:29.078 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:42:29.080 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:42:29.110 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c2c-8b75-7bc8-80f9-966546fc8f28"，共 1 个文件
+2026-02-14 20:42:29.110 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:42:29.242 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:42:29.244 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:42:29.246 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 20:42:34.528 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 20:42:34.650 +08:00 [ERR] 异常消息: Not a WAVE file - no RIFF header
+System.FormatException: Not a WAVE file - no RIFF header
+   at NAudio.FileFormats.Wav.WaveFileChunkReader.ReadRiffHeader(BinaryReader br)
+   at NAudio.FileFormats.Wav.WaveFileChunkReader.ReadWaveHeader(Stream stream)
+   at NAudio.Wave.WaveFileReader..ctor(Stream inputStream, Boolean ownInput)
+   at NAudio.Wave.WaveFileReader..ctor(String waveFile)
+   at Ke.Ai.Sherpa.Speeches.VadSubtitleGenerator.Generate(CreateSubtitleRequest req, IProgress`1 progress) in C:\Users\ke\dev\proj\libs\AI\core\Ke.Ai.Sherpa\Speeches\VadSubtitleGenerator.cs:line 44
+   at Ke.Ai.Sherpa.Speeches.SherpaSpeechRecognizer.RecognizeAsync(SherpaSpeechRecognizeRequest request, CancellationToken cancellationToken) in C:\Users\ke\dev\proj\libs\AI\core\Ke.Ai.Sherpa\Speeches\SherpaSpeechRecognizer.cs:line 45
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessRecognitionAsync(String audioFile, String outputSrtFile, Func`2 progressCallback, CancellationToken cancellationToken)
+   at Ke.Tasks.Processors.AsrTaskProcessor.ProcessAsync(TaskInfo task, ChannelWriter`1 channelWriter, CancellationToken cancellationToken)
+   at Ke.Tasks.ChatCompletion.<>c__DisplayClass4_1.<<SendAsync>b__0>d.MoveNext()
+2026-02-14 20:42:34.651 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 5571.6761ms
+2026-02-14 20:42:34.651 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:42:34.652 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 5574.5442ms
+2026-02-14 20:43:46.796 +08:00 [INF] Request starting HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - null null
+2026-02-14 20:43:46.797 +08:00 [INF] Executing endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:43:46.798 +08:00 [INF] Route matched with {action = "ProgressTaskStream", controller = "Sse", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Http.HttpResults.ServerSentEventsResult`1[Ke.Tasks.SSE.Models.SseEvent] ProgressTaskStream(Ke.Tasks.Models.Chats.ChatRequest, System.String) on controller Ke.Chat.Controllers.SseController (Ke.Chat.HttpApi.Host).
+2026-02-14 20:43:46.821 +08:00 [INF] 开始语音转写任务: 任务标识："019c5c2d-bb03-7ab0-a193-92db589f97f5"，共 1 个文件
+2026-02-14 20:43:46.821 +08:00 [INF] 开始处理文件: 1.mp4 (索引: 1/1)
+2026-02-14 20:43:46.951 +08:00 [INF] 文件转码完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:43:46.951 +08:00 [INF] 开始识别，音频文件: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.wav
+2026-02-14 20:43:46.952 +08:00 [INF] 初始化识别器配置: {"$type":"OfflineRecognizerConfig"}
+2026-02-14 20:43:52.363 +08:00 [INF] 已创建识别器，开始识别并生成字幕
+2026-02-14 20:44:07.475 +08:00 [INF] 识别结果包含 1179 个字符，即将返回识别结果
+2026-02-14 20:44:07.610 +08:00 [INF] 文件识别完成: C:\Users\ke\dev\proj\tools\BeeChat\ChatApi\host\Ke.Chat.HttpApi.Host\temp\1.mp4
+2026-02-14 20:44:07.611 +08:00 [INF] 任务完成: "019c5c29-9da3-7de5-906e-6f3eb97aa9de"，总耗时: 290.46s，总体权重进度: 100.00%
+2026-02-14 20:44:07.646 +08:00 [INF] 任务完成: "019c5c2c-8b75-7bc8-80f9-966546fc8f28"，总耗时: 98.54s，总体权重进度: 100.00%
+2026-02-14 20:44:07.653 +08:00 [INF] 任务完成: "019c5c2d-bb03-7ab0-a193-92db589f97f5"，总耗时: 20.83s，总体权重进度: 100.00%
+2026-02-14 20:44:07.657 +08:00 [INF] Executed action Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host) in 20858.9846ms
+2026-02-14 20:44:07.657 +08:00 [INF] Executed endpoint 'Ke.Chat.Controllers.SseController.ProgressTaskStream (Ke.Chat.HttpApi.Host)'
+2026-02-14 20:44:07.658 +08:00 [INF] Request finished HTTP/2 GET https://localhost:44300/api/sse/progress-task?taskType=asr&prompt=a&refFileIds=a - 200 null text/event-stream 20861.2429ms
+2026-02-14 20:44:16.620 +08:00 [DBG] 执行定期清理...
+2026-02-14 20:44:16.624 +08:00 [DBG] 定期清理完成
+2026-02-14 20:49:16.630 +08:00 [DBG] 执行定期清理...
+2026-02-14 20:49:16.630 +08:00 [DBG] 定期清理完成
+2026-02-14 20:51:40.990 +08:00 [INF] Application is shutting down...

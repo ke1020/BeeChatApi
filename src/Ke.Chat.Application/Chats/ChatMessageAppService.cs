@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Ke.Tasks.Abstractions;
-using Ke.Tasks.Models;
 using Ke.Tasks.Models.Chats;
 
 namespace Ke.Chat.Chats;
@@ -58,22 +55,18 @@ public class ChatSessionAppService(IChatSessionRepository sessionRepository,
     private MessageFragment ParseFragment(ChatMessageFragment fm)
     {
         var type = Enum.TryParse<FragmentType>(fm.Type, out var ft) ? ft : FragmentType.None;
+
+        var task = ObjectMapper.Map<Tasks.Models.TaskInfo, TaskInfo>(fm.Task!);
         // 根据决定内容类型
         FragmentContent content = type switch
         {
-            FragmentType.THINK => new TaskFragmentContent(new TaskInfo()),
-            _ => new TextFragmentContent(string.Empty)
+            FragmentType.THINK => new TaskFragmentContent(task),
+            _ => new TextFragmentContent(fm.Content ?? string.Empty)
         };
 
         var fragment = new MessageFragment(GuidGenerator.Create(), type);
         fragment.SetContent(content);
         return fragment;
-    }
-
-    public class MessageFragmentContent
-    {
-        public string? Content { get; set; }
-        public List<TaskItem>? Tasks { get; set; }
     }
 }
 
